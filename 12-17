@@ -1,0 +1,42 @@
+bool isPalindrome(struct ListNode* head){
+    if(!head || (head && !(head->next)))
+        return true;
+    //将链表的后半部分进行反转，在进行比较
+    struct ListNode* fast = head;
+    struct ListNode* slow = head;
+    struct ListNode* preSlow = head;
+    //快慢指针，fast指向最后一个节点，slow指向中间节点
+    while(fast && fast->next)
+    {
+        preSlow = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    //将中间节点的前一个节点的next置为空
+    preSlow->next = NULL;
+    //利用slow将后半部分进行反转
+    struct ListNode* slowNext = slow;
+    struct ListNode* newHead = (struct ListNode*)malloc(sizeof(struct ListNode));
+    newHead->next = NULL;
+    while(slow)
+    {
+        slowNext = slow->next;
+        slow->next = newHead->next;
+        newHead->next = slow;
+        slow = slowNext;
+    }
+    slow = newHead->next;
+    while(slow && head)
+    {
+        if(slow->val == head->val)
+        {
+            slow = slow->next;
+            head = head->next;
+        }
+        else
+            return false;
+    }
+    if(slow != NULL && slow->next)
+        return false;
+    return true;
+}
