@@ -1,0 +1,31 @@
+struct ListNode* mergeInBetween(struct ListNode* list1, int a, int b, struct ListNode* list2){
+    struct ListNode* La = list1;
+    struct ListNode* Lb = list1;
+    while(b && Lb->next)
+    {
+        if(a-1 && b)
+        {
+            La = La->next;
+            Lb = Lb->next;
+            a--;
+            b--;
+        }
+        else if(a-1 == 0 && b)
+        {
+            Lb = Lb->next;
+            b--;
+        }
+        else
+        {
+            break;
+        }
+    }
+    La->next = list2;
+    struct ListNode* tail = list2;
+    while(tail->next)
+    {
+        tail = tail->next;
+    }
+    tail->next = Lb->next;
+    return list1;
+}
