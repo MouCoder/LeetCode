@@ -1,0 +1,13 @@
+int hammingWeight(uint32_t n) {
+    unsigned int i = 1;
+    int sum = 0;
+    int count = 32;
+    while(count)
+    {
+        if((n & i) == i)
+            sum++;
+        i = i<<1;
+        count--; 
+    }
+    return sum;
+}
