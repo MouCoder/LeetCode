@@ -1,0 +1,24 @@
+struct ListNode *detectCycle(struct ListNode *head) {
+     struct ListNode* fast = head;
+    struct ListNode* slow = head;
+    //当fast为空或者fast->next为空时，链表无环
+    while(fast && fast->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+        if(slow == fast)
+            break;
+    }
+    //如果链表没有环直接返回空
+    if(fast == NULL || fast->next == NULL)
+        return NULL;
+    //如果链表有环，找第一个节点
+    struct ListNode* pHead = head;
+    struct ListNode* meet = fast;
+    while(pHead != meet)
+    {
+        pHead = pHead->next;
+        meet = meet->next;
+    }
+    return meet;
+}
