@@ -1,0 +1,13 @@
+bool hasCycle(struct ListNode *head) {
+    struct ListNode* fast = head;
+    struct ListNode* slow = head;
+    //当fast为空或者fast->next为空时，链表无环
+    while(fast && fast->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+        if(slow == fast)
+            return true;
+    }
+    return false;
+}
