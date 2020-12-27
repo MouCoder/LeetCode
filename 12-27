@@ -1,0 +1,40 @@
+struct Node* copyRandomList(struct Node* head) {
+	if(head == NULL)
+        return NULL;
+    //创建新节点,在每一个节点后创建一个新节点，新节点的next域指向原节点的next域，random置空。
+    struct Node* pHead = head;
+    while(pHead)
+    {
+        //申请新节点
+        struct Node* newNode = (struct Node*)malloc(sizeof(struct Node)); 
+        newNode->val = pHead->val;
+        newNode->random = NULL;
+        newNode->next = pHead->next;
+        pHead->next = newNode;
+        pHead = newNode->next;
+    }
+    //将新节点的random域设置为与源节点的random域相同
+    pHead = head;
+    while(pHead && pHead->next)
+    {
+        if(pHead->random)
+            pHead->next->random = pHead->random->next;
+        else
+            pHead->next->random = NULL;
+        pHead = pHead->next->next;
+    }
+    //将新节点从链表中取出来，连接组成一个新的链表
+    pHead = head;
+    struct Node* newHead = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* tail = newHead;
+    while(pHead && pHead->next)
+    {
+       tail->next = pHead->next;
+       pHead->next = pHead->next->next;
+       pHead = pHead->next;
+       tail = tail->next;
+    }
+    pHead = newHead->next;
+    free(newHead);
+    return pHead;
+}
