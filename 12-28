@@ -1,0 +1,21 @@
+int* reversePrint(struct ListNode* head, int* returnSize){
+    int size = 0;
+    struct ListNode* pHead = head;
+    while(pHead)
+    {
+        size++;
+        pHead = pHead->next;
+    }
+    (*returnSize) = size;
+    //遍历链表得到链表的长度，根据长度开辟数组
+    int* ret = (int*)malloc(sizeof(int)*size);
+    //遍历链表，将链表元素逆序存入数组
+    pHead = head;
+    while(pHead)
+    {
+        ret[size-1] = pHead->val;
+        size--;
+        pHead = pHead->next;
+    }    
+    return ret;
+}
