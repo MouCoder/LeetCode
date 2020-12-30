@@ -1,0 +1,11 @@
+if(l1->val + flag <= 9)
+        {
+            l1->val = l1->val + flag;
+            flag = 0;
+        }
+        else
+        {
+            l1->val = (l1->val + flag)%10;
+            flag = 1;
+        }
+        l1 = l1->next;
