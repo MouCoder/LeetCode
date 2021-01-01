@@ -1,0 +1,39 @@
+struct ListNode* insertionSortList(struct ListNode* head){
+    if(head == NULL || head->next == NULL)
+        return head;
+    struct ListNode* curr = head->next;
+    struct ListNode* currNext = curr;
+    //创建一个哨兵节点
+    struct ListNode* newHead = (struct ListNode*)malloc(sizeof(struct ListNode));
+    //将哨兵节点的next域指向链表的头节点
+    newHead->next = head;
+    head->next = NULL;
+    //遍历链表的指针
+    while(curr)
+    {
+        struct ListNode* sortCurr = newHead->next;
+        struct ListNode* preSortCurr = newHead;
+        while(sortCurr && sortCurr->val <= curr->val)
+        {
+            preSortCurr = sortCurr;
+            sortCurr = sortCurr->next;
+        }
+        if(sortCurr)
+        {
+            currNext = curr->next;
+            curr->next = preSortCurr->next;
+            preSortCurr->next = curr;
+            curr = currNext;
+        }
+        else
+        {
+            currNext = curr->next;
+            preSortCurr->next = curr;
+            curr->next = NULL;
+            curr = currNext;
+        }
+    }
+    head = newHead->next;
+    free(newHead);
+    return head;
+}
