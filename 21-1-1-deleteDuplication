@@ -1,0 +1,54 @@
+class Solution {
+public:
+    ListNode* deleteDuplication(ListNode* pHead)
+    {
+        //没有节点或者只有一个节点时，直接返回链表
+        if(pHead == NULL || pHead->next == NULL)
+            return pHead;
+        ListNode* curr = pHead;
+        ListNode* currNext = pHead->next;
+        ListNode* preCurr = NULL;
+        //遍历链表，查找相同的值
+        while(currNext)
+        {
+            //如果两个值相等，移动后边的指针
+            if(curr->val == currNext->val)
+            {
+                while(currNext && (curr->val == currNext->val))
+                {
+                    currNext = currNext->next;
+                }
+                //删除重复的节点，释放空间
+                ListNode* del = curr;
+                while(del != currNext)
+                {
+                    curr = curr->next;
+                    free(del);
+                    del = curr;
+                }
+                //连接节点
+                if(preCurr == NULL)
+                {
+                    pHead = currNext;
+                }
+                else
+                {
+                    preCurr->next = currNext;
+                }
+                //设置链表指针相应位置‘
+                if(curr)
+                {
+                    currNext = curr->next;
+                }
+            }
+            //同时移动curr和currNext指针
+            else
+            {
+                preCurr = curr;
+                curr = currNext;
+                currNext = currNext->next;
+            }
+        }
+        return pHead;
+    }
+};
