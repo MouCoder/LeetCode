@@ -1,0 +1,17 @@
+void moveZeroes(int* nums, int numsSize){
+    //将数组中所有非0的元素挨个存放在数组中
+    int index = 0;//非0元素下标
+    for(int i = 0;i < numsSize;i++)
+    {
+        if(nums[i] != 0)
+        {
+            nums[index] = nums[i];
+            index++;
+        }
+    }
+    //让后边元素都为0
+    for(;index < numsSize;index++)
+    {
+        nums[index] = 0;
+    }
+}
