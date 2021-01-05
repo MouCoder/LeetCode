@@ -1,0 +1,59 @@
+//创建一个静态栈
+typedef struct Stack
+{
+    char* val;//数组栈
+    int top;//栈顶
+}Stack;
+int isEqual(char left,char right)
+{
+    //判断左右括号是否匹配，如果匹配返回0,否则返回1
+    switch(left)
+    {
+        case '(':
+        if(right == ')')
+            return 0;
+        break;
+        case '{':
+        if(right == '}')
+            return 0;
+        break;
+        case '[':
+        if(right == ']')
+            return 0;
+        break;
+    }
+    return 1;
+}
+bool isValid(char * s){
+    //定义和初始化
+    Stack stack;
+    stack.val = (char*)malloc(sizeof(char)*strlen(s));
+    stack.top = 0;
+    //左括号入栈,右括号进行匹配
+    while(*s)
+    {
+        //左括号，入栈
+        if(*s == '(' || *s == '{' || *s == '[')
+        {
+            stack.val[stack.top] = *s;
+            stack.top++;
+            s++;
+        }
+        else
+        {
+            //如果栈为空，或者栈顶元素不能匹配右括号，则括号匹配失败
+            if(stack.top == 0 || isEqual(stack.val[stack.top - 1],*s))
+            {
+                return false;
+            }
+            else
+            {
+                stack.top--;
+                s++;
+            }
+        }
+    }
+    if(stack.top == 0)
+        return true;
+    return false;
+}
