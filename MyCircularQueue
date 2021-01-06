@@ -1,0 +1,87 @@
+typedef struct {
+    int* arry;//队列数组
+    int front;//队头下标
+    int rear;//队尾下标
+    int k;//队列大小
+} MyCircularQueue;
+
+MyCircularQueue* myCircularQueueCreate(int k) {
+    MyCircularQueue* q = (MyCircularQueue*)malloc(sizeof(MyCircularQueue));
+    //初始化队列
+    //为队列数组开辟空间，大小为k的队列需开辟k+1个节点
+    q->arry = (int*)malloc(sizeof(int)*(k+1));
+    q->front = q->rear = 0;
+    q->k = k;
+    return q;
+}
+
+bool myCircularQueueEnQueue(MyCircularQueue* obj, int value) {
+    //判断队列是否为满，如果满返回false
+    if(myCircularQueueIsFull(obj))
+    {
+        return false;
+    }
+    //入队
+    obj->arry[obj->rear] = value;
+    //队尾指针后移
+    obj->rear = (obj->rear + 1)%(obj->k+1);
+    return true;
+}
+
+bool myCircularQueueDeQueue(MyCircularQueue* obj) {
+    if(myCircularQueueIsEmpty(obj))
+    {
+        return false;
+    }
+    obj->front = (obj->front + 1)%(obj->k + 1);
+    return true;
+}
+
+int myCircularQueueFront(MyCircularQueue* obj) {
+    if(myCircularQueueIsEmpty(obj))
+        return -1;
+    return obj->arry[obj->front];
+}
+
+int myCircularQueueRear(MyCircularQueue* obj) {
+    if(myCircularQueueIsEmpty(obj))
+        return -1;
+    int tail = obj->rear - 1;
+    if(tail == -1)
+        tail = obj->k;
+    return obj->arry[tail];
+}
+int myCircularQueueIsEmpty(MyCircularQueue* obj) {
+    if(obj->rear == obj->front)
+        return true;
+    return false;
+}
+
+int myCircularQueueIsFull(MyCircularQueue* obj) {
+    if((obj->rear + 1)%(obj->k + 1) == obj->front)
+        return true;
+    return false;
+}
+
+void myCircularQueueFree(MyCircularQueue* obj) {
+    free(obj->arry);
+    free(obj);
+}
+
+/**
+ * Your MyCircularQueue struct will be instantiated and called as such:
+ * MyCircularQueue* obj = myCircularQueueCreate(k);
+ * bool param_1 = myCircularQueueEnQueue(obj, value);
+ 
+ * bool param_2 = myCircularQueueDeQueue(obj);
+ 
+ * int param_3 = myCircularQueueFront(obj);
+ 
+ * int param_4 = myCircularQueueRear(obj);
+ 
+ * bool param_5 = myCircularQueueIsEmpty(obj);
+ 
+ * bool param_6 = myCircularQueueIsFull(obj);
+ 
+ * myCircularQueueFree(obj);
+*/
