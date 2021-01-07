@@ -1,0 +1,118 @@
+// 支持动态增长的栈
+typedef int STDataType;
+typedef struct Stack
+{
+	STDataType* _a;
+	int _top;		// 栈顶
+	int _capacity;  // 容量 
+}Stack;
+// 初始化栈 
+void StackInit(Stack* ps)
+{
+	ps->_a = (STDataType*)malloc(sizeof(STDataType)*2);
+	ps->_capacity = 2;
+	ps->_top = 0;
+}
+// 入栈 
+void StackPush(Stack* ps, STDataType data)
+{
+	//判断栈是否满了，如果满了先进行增容在入栈
+	if (ps->_top == ps->_capacity)
+	{
+		ps->_capacity *= 2;
+		ps->_a = (STDataType*)realloc(ps->_a,sizeof(STDataType)*(ps->_capacity));
+	}
+	ps->_a[ps->_top] = data;
+	ps->_top++;
+}
+// 出栈 
+void StackPop(Stack* ps)
+{
+	//判断栈是否为空，如果为空直接退出
+	if (!StackEmpty(ps))
+	    ps->_top--;
+}
+// 获取栈顶元素 
+STDataType StackTop(Stack* ps)
+{
+	//判断栈是否为空
+	if (StackEmpty(ps))
+		return -1;
+	return ps->_a[ps->_top - 1];
+}
+// 检测栈是否为空，如果为空返回非零结果，如果不为空返回0 
+int StackEmpty(Stack* ps)
+{
+	return !(ps->_top);
+}
+// 销毁栈 
+void StackDestroy(Stack* ps)
+{
+	free(ps->_a);
+	ps->_a = NULL;
+}
+typedef struct {
+    //一个栈用来进行入队操作，一个栈用来出队操作
+    Stack pushStack;
+    Stack popStack;
+} MyQueue;
+
+/** Initialize your data structure here. */
+
+MyQueue* myQueueCreate() {
+    //创建队列并初始化
+    MyQueue* q = (MyQueue*)malloc(sizeof(MyQueue));
+    StackInit(&q->pushStack);
+    StackInit(&q->popStack);
+
+    return q;
+}
+
+/** Push element x to the back of queue. */
+void myQueuePush(MyQueue* obj, int x) {
+    StackPush(&obj->pushStack,x);
+}
+
+/** Removes the element from in front of queue and returns that element. */
+int myQueuePop(MyQueue* obj) {
+    //队头元素为出栈栈顶元素
+    int front = myQueuePeek(obj);
+    //栈顶元素出栈
+    StackPop(&obj->popStack);
+    return front;
+}
+
+/** Get the front element. */
+int myQueuePeek(MyQueue* obj) {
+    //如果出栈的栈为空，将入栈的栈中元素入栈
+    if(!StackEmpty(&obj->popStack))
+    {
+        return StackTop(&obj->popStack);
+    }
+    else
+    {
+        while(!StackEmpty(&obj->pushStack))
+        {
+            StackPush(&obj->popStack,StackTop(&obj->pushStack));
+            StackPop(&obj->pushStack);
+        }
+        return StackTop(&obj->popStack);
+    }
+}
+
+/** Returns whether the queue is empty. */
+bool myQueueEmpty(MyQueue* obj) {
+    //两个栈同时为空，队列才为空
+    if(StackEmpty(&obj->popStack) && StackEmpty(&obj->pushStack))
+    {
+        return true;
+    }
+    return false;
+}
+
+void myQueueFree(MyQueue* obj) {
+    StackDestroy(&obj->pushStack);
+    StackDestroy(&obj->popStack);
+
+    free(obj);
+}
