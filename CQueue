@@ -1,0 +1,115 @@
+// 支持动态增长的栈
+typedef int STDataType;
+typedef struct Stack
+{
+	STDataType* _a;
+	int _top;		// 栈顶
+	int _capacity;  // 容量 
+}Stack;
+//初始化栈
+void StackInit(Stack* st)
+{
+    //开辟空间，初始状态开辟两个空间大小的数组
+    st->_a = (STDataType*)malloc(sizeof(STDataType)*2);
+    st->_top = 0;
+    st->_capacity = 2;
+}
+//入栈
+void StackPush(Stack* st,STDataType x)
+{
+    //判断栈是否满了，如果满了进行扩容
+    if(st->_top == st->_capacity)
+    {
+        st->_capacity *= 2;
+        st->_a = (STDataType*)realloc(st->_a,sizeof(STDataType)*st->_capacity);
+    }
+    //入栈
+    st->_a[st->_top] = x;
+    st->_top++;
+}
+//出栈
+void StackPop(Stack* st)
+{
+    //判断栈不为空进行出栈
+    if(!StackEmpty(st))
+    {
+        st->_top--;
+    }
+}
+//获取栈顶元素
+STDataType StackHead(Stack* st)
+{
+    if(!StackEmpty(st))
+    {
+        return st->_a[st->_top - 1];
+    }
+    return -1;
+}
+//判断栈空
+int StackEmpty(Stack* st)
+{
+    return !st->_top;
+}
+//销毁栈
+void StackDestory(Stack* st)
+{
+    free(st->_a);
+    st->_a == NULL;
+}
+typedef struct {
+    Stack popStack;//出队栈
+    Stack pushStak;//入队栈
+} CQueue;
+
+CQueue* cQueueCreate() {
+    //创建队列
+    CQueue* q = (CQueue*)malloc(sizeof(CQueue));
+    //初始化队列中的栈
+    StackInit(&q->popStack);
+    StackInit(&q->pushStak);
+
+    return q;
+}
+
+void cQueueAppendTail(CQueue* obj, int value) {
+    StackPush(&obj->pushStak,value);
+}
+
+int cQueueDeleteHead(CQueue* obj) {
+    //判断队列是否为空
+    if(StackEmpty(&obj->popStack) && StackEmpty(&obj->pushStak))
+    {
+        return -1;
+    }
+    //判断出队栈是否为空，如果为空，将入队栈元素入栈
+    if(StackEmpty(&obj->popStack))
+    {
+        while(!StackEmpty(&obj->pushStak))
+        {
+            //获取栈顶元素入栈
+            StackPush(&obj->popStack,StackHead(&obj->pushStak));
+            //栈顶元素出栈
+            StackPop(&obj->pushStak);
+        }
+    }
+    //栈顶元素出栈
+    int front = StackHead(&obj->popStack);
+    StackPop(&obj->popStack);
+    return front;
+}
+
+void cQueueFree(CQueue* obj) {
+    StackDestory(&obj->popStack);
+    StackDestory(&obj->pushStak);
+    free(obj);
+}
+
+/**
+ * Your CQueue struct will be instantiated and called as such:
+ * CQueue* obj = cQueueCreate();
+ * cQueueAppendTail(obj, value);
+ 
+ * int param_2 = cQueueDeleteHead(obj);
+ 
+ * cQueueFree(obj);
+*/
