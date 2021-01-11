@@ -1,0 +1,26 @@
+struct ListNode* swapNodes(struct ListNode* head, int k){
+    struct ListNode* slow = head;
+    struct ListNode* fast = head;
+    struct ListNode* nodeK = head;
+    int n = 1;
+    while(fast->next)
+    {
+        if(n < k)
+        {
+            //nodek指向第k个节点后停止移动
+            nodeK = nodeK->next;
+        }
+        else
+        {
+            //快指针走到k个节点时慢指针开始追赶
+            slow = slow->next;
+        }
+        fast = fast->next;
+        n++;
+    }
+    //交换节点
+    int temp = nodeK->val;
+    nodeK->val = slow->val;
+    slow->val = temp;
+    return head;
+}
