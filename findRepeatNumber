@@ -1,0 +1,20 @@
+int findRepeatNumber(int* nums, int numsSize)
+{
+    //原地置换算法
+    int i = 0;
+    for(;i < numsSize;i++)
+    {
+        while(nums[i] != i)
+        {
+            if(nums[i] == nums[nums[i]])
+            {
+                return nums[i];
+            }
+            int temp = nums[i];
+            nums[i] = nums[temp];
+            nums[temp] = temp;
+        }
+    }
+    //没找到重复元素
+    return 0;
+}
