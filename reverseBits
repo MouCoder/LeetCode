@@ -1,0 +1,12 @@
+uint32_t reverseBits(uint32_t n) {
+    /*权位相加，颠倒权位*/
+    int count = 0;
+    uint32_t ret = 0;
+    while(n)
+    {
+        ret += (n%2)*pow(2,(31-count));
+        n /= 2;
+        count++;
+    }
+    return ret;
+}
