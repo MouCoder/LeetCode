@@ -1,0 +1,36 @@
+bool isUnivalTree(struct TreeNode* root){
+    //如果一棵树的左右子树都为空，返回真
+    if(root == NULL || (root->right == NULL && root->left == NULL))
+        return true;
+    else if(root->right == NULL || root->left == NULL)
+    {
+        //如果有一个为空，当非空节点的值等于跟节点的值时返回真，并继续遍历其子节点
+        struct TreeNode* nonNullNode = root->left;
+        if(root->right != NULL)
+        {
+            nonNullNode = root->right;
+        }
+        //如果非空节点的值等于其父亲节点的值，则返回其左右子树的判断结果
+        if(nonNullNode->val == root->val)
+        {
+            return isUnivalTree(root->right) && isUnivalTree(root->left);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    //如果一棵树的左右子树的节点都不为空，判断左右子节点是否等于父节点
+    else
+    {
+        if(root->val == root->left->val && root->val == root->right->val)
+        {
+            return isUnivalTree(root->right) && isUnivalTree(root->left);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+}
