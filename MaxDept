@@ -1,0 +1,14 @@
+int maxDepth(struct TreeNode* root){
+    /*递归解法：二叉树的深度为左右子树的深度+1，计算出的二叉树的左右子树的深度即可；
+    *计算二叉树的左右子树的深度又要计算出子树的子树的深度，依此递归
+    */
+
+    //空树的深度为0
+    if(root == NULL)
+        return 0;
+    //求左右子树的深度
+    int left = maxDepth(root->left);
+    int right = maxDepth(root->right);
+    //返回左右子树中深度较大的+1
+    return left > right ? (left + 1) : (right + 1);
+}
