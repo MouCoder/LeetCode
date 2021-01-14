@@ -1,0 +1,17 @@
+bool isUnique(char* astr){
+    //假设字符串中只包含26个小写字母，创建一个含有26个元素的数组，遍历字符串，将数组相应位标记检测
+    //时间复杂度：O(N)；空间复杂度O(1)
+    short bit[26] = {0};
+    while(*astr)
+    {
+        int index = *astr - 'a';
+        if(bit[index] == 1)
+            return false;
+        else
+        {
+            bit[index] = 1;
+            astr++;
+        }
+    }
+    return true;
+}
