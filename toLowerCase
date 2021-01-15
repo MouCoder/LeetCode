@@ -1,0 +1,13 @@
+char * toLowerCase(char * str){
+    //大写字母转小写字母ASCII+32即可
+    char* ret = str;
+    while(*str)
+    {
+        if(*str >= 'A' && *str <= 'Z')
+        {
+            *str += 32;
+        }
+        str++;
+    } 
+    return ret;
+}
