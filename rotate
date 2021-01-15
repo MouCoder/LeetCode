@@ -1,0 +1,23 @@
+void reverse(int* num,int numSize)
+{
+    //逆置数组
+    for(int i = 0;i < numSize/2;i++)
+    {
+        int temp = num[i];
+        num[i] = num[numSize - i - 1];
+        num[numSize - i - 1] = temp;
+    }
+}
+void rotate(int* nums, int numsSize, int k){
+   /*方法1:逆置数组(先将数组整体逆置，再将前k%numsSize个逆置，在逆置后面的numsSize - k%numsSize个)*/
+   int k1 = k%numsSize;
+   if(k % numsSize != 0)
+   {
+        //第一步：逆置整个数组
+        reverse(nums,numsSize);
+        //第二步：逆置前k个元素
+        reverse(nums,k1);
+        //第三步：逆置后numsSize - k个元素
+        reverse(&nums[k1],numsSize - k1);
+   }
+}
