@@ -1,0 +1,26 @@
+int searchInsert(int* nums, int numsSize, int target){
+    //二分查找
+    int first = 0;
+    int last = numsSize-1;
+    int mid = (first+last)/2;
+    while(first <= last)
+    {
+        if(mid > 0 && (nums[mid-1] < target && nums[mid] >= target))
+            return mid;
+        else if(nums[mid] > target)
+        {
+            last = mid - 1;
+            mid = (first+last)/2;
+        }
+        else
+        {
+            first = mid+1;
+            mid = (first+last)/2;
+        }
+    }
+    //如果循环退出，则数组中不存在nums[mid-1] < target && nums[mid] >= target的位置
+    if(nums[numsSize-1] < target)
+        return numsSize;
+    else
+        return 0;
+}
