@@ -1,0 +1,24 @@
+//方法1
+struct TreeNode* invertTree(struct TreeNode* root){
+    if(root == NULL)
+        return NULL;
+    
+    //翻转左右孩子节点
+    struct TreeNode* right = root->right;
+    root->right = root->left;
+    root->left = right;
+    invertTree(root->right);
+    invertTree(root->left);
+    return root;
+}
+//方法2
+struct TreeNode* invertTree(struct TreeNode* root){
+    if(root == NULL)
+        return NULL;
+    
+    //翻转左右孩子节点
+    struct TreeNode* right = root->right;
+    root->right = invertTree(root->left);
+    root->left = invertTree(right);
+    return root;
+}
