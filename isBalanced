@@ -1,0 +1,46 @@
+//方法1----时间复杂度O(N^2)
+int TreeDepth(struct TreeNode* root)
+{
+    if(root == NULL)
+        return 0;
+    int left = TreeDepth(root->left);
+    int right = TreeDepth(root->right);
+
+    return left>right?(1+left):(1+right);
+}
+bool isBalanced(struct TreeNode* root){
+    if(root == NULL)
+        return true;
+    int left = TreeDepth(root->left);
+    int right = TreeDepth(root->right);
+    if(left - right > 1 || left - right < -1)
+        return false;
+
+    return isBalanced(root->left)&&isBalanced(root->right);
+}
+
+//方法2----时间复杂度O(N)
+bool _isBalanced(struct TreeNode* root,int* length)
+{
+    if(root == NULL)
+    {
+        *length = 0;
+        return true;
+    }
+    //判断左子树是否为平衡二叉树
+    int leftLength = 0;
+    if(!_isBalanced(root->left,&leftLength))
+        return false;
+    //判断右子树是否为平衡二叉树
+    int rightLenght = 0;
+    if(!_isBalanced(root->right,&rightLenght))
+        return false;
+    if(abs(leftLength-rightLenght) > 1)
+        return false;
+    *length = leftLength>rightLenght?leftLength+1:rightLenght+1;
+    return true;
+}
+bool isBalanced(struct TreeNode* root){
+    int length = 0;
+    return _isBalanced(root,&length);
+}
