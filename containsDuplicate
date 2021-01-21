@@ -1,0 +1,30 @@
+bool containsDuplicate(int* nums, int numsSize){
+    //对数组进行排序判断相邻位置是否相等
+    //插入排序，排序过程中如果遇到某元素已经存在，直接返回true
+    for(int i = 0;i < numsSize-1;i++)
+    {
+        int end = i;
+        int tmp = nums[end + 1];
+        while(end >= 0)
+        {
+            //如果大于待插入的数据就后移
+            if(nums[end] > tmp)
+            {
+                nums[end+1] = nums[end];
+                --end;
+            }
+            //如果带插入的数据已经在数组中存在，返回true
+            else if(nums[end] == tmp)
+            {
+                return true;
+            }
+            //如果小于，则将tmp插入到后边
+            else
+            {
+                break;
+            }
+        }
+        nums[end+1] = tmp;
+    }
+    return false;
+}
