@@ -1,0 +1,46 @@
+bool isLongPressedName(char * name, char * typed){
+    //双指针，比较两个字符串，遇到不相同的地方判断是否为长按
+    char* pname = name;
+    char* ptyped = typed;
+    //遍历字符串，当其中一个字符串为空时结束
+    while(*pname && *ptyped)
+    {
+        //如果相等，两个指针同时后移，如果不相等判断是否为长按
+        if(*pname == *ptyped)
+        {
+            ptyped++;
+            pname++;
+        }
+        else
+        {
+            //如果是长按，则该字符与上一个字符应该相同(如果typed是第一个字符，则直接返回false)
+            if(ptyped != typed && *ptyped == *(ptyped - 1))
+            {
+                //指针后移，继续判断
+                ptyped++;
+            }
+            else
+            {
+                //如果不是长按，直接返回false
+                return false;
+            }
+        }
+    }
+    //如果两个字符串不同时结束，判断哪个字符串先结束
+    //如果typedef先结束，返回false；否则判断typed后边的字符是否为长按字符
+    if(*pname != *ptyped)
+    {
+        if(*ptyped == '\0')
+            return false;
+        else
+        {
+            while(*ptyped)
+            {
+                if(*ptyped != *(ptyped - 1))
+                    return false;
+                ptyped++;
+            }
+        }
+    }
+    return true;
+}
