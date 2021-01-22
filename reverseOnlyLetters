@@ -1,0 +1,27 @@
+char * reverseOnlyLetters(char * S){
+    //双指针
+    char* begin = S;
+    char* end = S+strlen(S)-1;
+    while(begin < end)
+    {
+        //判断是否为字母
+        if(!((*begin >= 'A' && *begin <= 'Z') || (*begin >= 'a' && *begin <= 'z')))
+        {
+            begin++;
+        }
+        else if(!((*end >= 'A' && *end <= 'Z') || (*end >= 'a' && *end <= 'z')))
+        {
+            end--;
+        }
+        else
+        {
+            //begin和end都是英文字母，交换
+            char tmp = *begin;
+            *begin = *end;
+            *end = tmp;
+            begin++;
+            end--;
+        }
+    }
+    return S;
+}
