@@ -1,0 +1,35 @@
+int* sortedSquares(int* nums, int numsSize, int* returnSize){
+    *returnSize = numsSize;
+    //对数组中的数求平方
+    int size = numsSize;
+    while(size)
+    {
+        nums[size-1] *= nums[size-1];
+        size--;
+    }
+    //使用希尔排序，对数组进行排序，排序的过程中对数组进行平方
+    int tag = numsSize;
+    while(tag > 1)
+    {
+        tag = tag/3 + 1;
+        for(int i = 0;i < numsSize - tag;i++)
+        {
+            int end = i;
+            int tmp = nums[end+tag];
+            while(end >= 0)
+            {
+                if(nums[end] > tmp)
+                {
+                    nums[end+tag] = nums[end];
+                    end -= tag;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            nums[end+tag] = tmp;
+        }
+    }
+    return nums;
+}
