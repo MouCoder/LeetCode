@@ -1,0 +1,33 @@
+int* sortArrayByParity(int* A, int ASize, int* returnSize){
+    //双指针遍历数组，如果前边的指针是奇数后边的指针是偶数，则交换
+    *returnSize = ASize;
+    int front = 0;
+    int tail = ASize - 1;
+    while(front < tail)
+    {
+        if(A[front] % 2 != 0 && A[tail] %2 == 0)
+        {
+            //交换
+            int tmp = A[front];
+            A[front] = A[tail];
+            A[tail] = tmp;
+        }
+        else if(A[front] %2 == 0 && A[tail] %2 != 0)
+        {
+            //不用交换，前后各走一步
+            front++;
+            tail--;
+        }
+        else if(A[front] %2 == 0)
+        {
+            //如果两个都是偶数，front++
+            front++;
+        }
+        else
+        {
+            //如果两个都是奇数,tail--
+            tail--;
+        }
+    }
+    return A;
+}
