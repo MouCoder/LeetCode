@@ -1,0 +1,32 @@
+char* replaceSpace(char* s){
+    //求原数组的长度，并统计出空格的数量
+    int length = 0;
+    int num = 0;
+    char* p = s;
+    while(*p)
+    {
+        length++;
+        if(*p == ' ')
+            num++;
+        p++;
+    }
+    //申请空间大小应该为length + 2*num + 1其中1用来存储字符串结束标志符
+    char* str = (char*)malloc(sizeof(char)*(length+2*num+1));
+    int index = 0;
+    while(*s)
+    {
+        if(*s == ' ')
+        {
+            str[index++] = '%';
+            str[index++] = '2';
+            str[index++] = '0';
+        }
+        else
+        {
+            str[index++] = *s;
+        }
+        s++;
+    }
+    str[index] = '\0';
+    return str;
+}
