@@ -1,0 +1,44 @@
+int thirdMax(int* nums,int numsSize)    
+{   
+    if(numsSize == 1)
+        return nums[0];
+    int firstMax = nums[0],secondMax=nums[1];
+    int i = 0;
+    for(;i < numsSize;i++)
+    {
+      //如果nums[i]大于第一大数,则当前最大数就变成了第二大
+      //否则，如果nums[i]不等于最大数，则判断其是否为第二大
+      if(nums[i] > firstMax)
+      {
+        secondMax = firstMax;
+        firstMax = nums[i];
+      }
+      else if(nums[i] != firstMax) 
+      {
+        //保证第二大数和第一大数不相等，如果相等遇到不相等的立即替换
+        //否则，只有当nums[i]大于第二大数的时候才能进行交换
+        if(secondMax == firstMax)
+          secondMax = nums[i];
+        else if(nums[i] > secondMax)
+        {
+            secondMax = nums[i];
+        }
+      }
+    }
+    //printf("%d %d",firstMax,secondMax);
+    //利用第一二大数，找第三大的数
+    int third = firstMax;
+    for(i = 0;i < numsSize;i++)
+    {
+      //如果nums[i]不等于第一大和第二大才需要进行处理
+      if(nums[i] != firstMax && nums[i] != secondMax)
+      {
+        //如果第三大数还是初始值，则立即交换
+        if(third == firstMax)
+          third = nums[i];
+        else if(nums[i] > third)
+          third = nums[i];                                                                
+      }
+    }
+    return third;
+}   
