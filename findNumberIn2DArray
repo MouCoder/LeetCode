@@ -1,0 +1,18 @@
+bool findNumberIn2DArray(int** matrix, int matrixSize, int* matrixColSize, int target){
+    if(matrixSize == 0)
+        return false;
+    int row = 0,col = matrixColSize[0] - 1;//行号、列号;
+    while(row < matrixSize && col >= 0)
+    {
+        //如果当前值小于目标值，如果当前行不是最后一行（row<matrixSize-1）则行号加1
+        if(matrix[row][col] < target && row < matrixSize-1)
+            row++;
+        else if( matrix[row][col] > target && col > 0)
+            col--;
+        else if(matrix[row][col] == target)
+            return true;
+        else 
+            break;
+    }
+    return false;
+}
