@@ -1,0 +1,40 @@
+char* replaceSpace(char* s,int length)
+{
+	//参数中，length为数组空间大小
+	if (s == NULL)
+		return NULL;
+	//遍历字符串，统计空格数量number
+	char* str = s;
+	int number = 0;
+	while (*str)
+	{
+		if (*str == ' ')
+			number++;
+		str++;
+	}
+	//一个空格需要替换成3个字符，需要2个额外空间
+	number *= 2;
+	//如果所给数组空间不够，退出
+	if (strlen(s) + 1 + number > length)
+		return NULL;
+	//从后向前遍历字符串，遇到一次空格就进行一次替换并且number-2
+	while (str >= s)
+	{
+		if (*str != ' ')
+		{
+			*(str + number) = *str;
+			str--;
+		}
+		else
+		{
+			number -= 2;
+			//遇到空格，向空格后的number-2位置开始插入%20
+			char* q = str + number;
+			*q = '%';
+			*(q + 1) = '2';
+			*(q + 2) = '0';
+			str--;
+		}
+	}
+	return s;
+}
