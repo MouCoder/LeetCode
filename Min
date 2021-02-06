@@ -1,0 +1,24 @@
+int Min(int* nums, int numsSize)
+{
+	//假设数组中的元素个数大于0
+	if (numsSize == 1)
+		return nums[0];
+	//定义三个指针
+	int begin = 0, end = numsSize - 1;
+	int mid = (begin+end)/2;
+
+	//循环终止条件，begin和mid相邻且nums[begin]<nums[mid]
+	while (begin+1 != end)
+	{
+		if (nums[mid] <= nums[end])
+		{
+			end = mid;
+		}
+		else if (nums[mid] >= nums[begin])
+		{
+			begin = mid;
+		}
+		mid = (begin+end) / 2;
+	}
+	return nums[end];
+}
