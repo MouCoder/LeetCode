@@ -1,0 +1,36 @@
+int Min(int* nums, int numsSize)
+{
+	//定义三个指针
+	int begin = 0, end = numsSize - 1;
+	int mid = begin;//这里让mid = begin，防止数组有序需要返回第一个元素
+
+	//如果数组元素有序（最后一个元素大于第一个元素），就直接返回第一个元素
+	while (nums[begin] >= nums[end])
+	{
+		//如果两个指针相等，就可以返回后边指针的值了
+		if (end - begin == 1)
+		{
+			mid = end; //要保证，数组元素有序返回mid值，因此要让mid == end
+			break;
+		}
+		mid = (begin+end) / 2;
+		//如果三个数相等，只能顺序查找
+		if (nums[begin] == nums[end] && nums[begin] == nums[mid])
+		{
+			int result = nums[begin];
+			for (int i = 0; i <= end; i++)
+			{
+				if (result > nums[i])
+					return nums[i];
+			}
+			//如果数组中的所有元素都相等，则result不可能大于nums[i]，这时我们返回数组中的最后一个元素即可
+			return nums[end];
+		}
+		//判断最小元素在数组中的位置
+		else if (nums[begin] <= nums[mid])
+			begin = mid;
+		else if (nums[end] >= nums[mid])
+			end = mid;
+	}
+	return nums[mid];
+}
