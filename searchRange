@@ -1,0 +1,62 @@
+class Solution {
+public:
+    int FindLeftIndex(vector<int>& nums,int left,int right,int target)
+    {
+        while(right - left >= 2)
+        {
+            int mid = (left+right)/2;
+            if(nums[mid] == target)
+                right = mid;
+            else 
+                left = mid;
+        }
+        //当两个值相等时，应该返回左值
+        if(nums[left] == target && nums[right] == target)
+            return left;
+        if(nums[right] != target)
+            return -1;
+        return right;
+    }
+    int FindRightIndex(vector<int>& nums,int left,int right,int target)
+    {
+        while(right - left >= 2)
+        {
+            int mid = (left+right)/2;
+            if(nums[mid] == target)
+                left = mid;
+            else 
+                right = mid;
+        }
+        //当两个值相等时，应该返回右值
+        if(nums[left] == target && nums[right] == target)
+            return right;
+        if(nums[left] != target)
+            return -1;
+        return left;
+    }
+    vector<int> searchRange(vector<int>& nums, int target) { 
+        //二分查找，先找到目标值
+        vector<int> ret = {-1,-1};
+        int size = nums.size();
+        //如果size==0，返回[-1,-1]
+        if(size == 0)
+            return ret;
+        //二分查找
+        int begin = 0,end = size-1;
+        int mid = 0;
+        while(begin <= end)
+        {
+            mid = (begin+end)/2;
+            if(nums[mid] == target)
+                break;
+            else if(nums[mid] > target)
+                end = mid - 1;
+            else
+                begin = mid + 1;
+        }
+        //以目标值左右为区分，查找目标值
+        ret[0] = FindLeftIndex(nums,0,mid,target);
+        ret[1] = FindRightIndex(nums,mid,size-1,target);
+        return ret;
+    }
+};
