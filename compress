@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        vector<char>::iterator it = chars.begin();
+        int newSize = 1;
+        //遍历字符串
+        for(int i = 1;i < chars.size();)
+        {
+            int count = 1;
+            it++;
+            while(i < chars.size() && chars[i] == chars[i-1])
+            {
+                i++;
+                count++;
+            }
+            if(count >= 2)
+            {
+                //将整型转为字符进行保存
+                int nums[4] = {0};
+                int k = 3;
+                while(count)
+                {
+                    nums[k--] = count % 10;
+                    count /= 10;
+                }
+                //保存
+                int j = 0;
+                while(nums[j] == 0)
+                    j++;
+                while(j < 4)
+                {
+                    *(it++) = nums[j++] + '0';
+                    newSize++;
+                }
+            }
+            if(i != chars.size())
+            {
+                *it = chars[i++];
+                newSize++;
+            }
+        }
+        return newSize;
+    }
+};
