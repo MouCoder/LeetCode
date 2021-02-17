@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        if(nums.size() == 1)
+            return 0;
+        //从前往后，第一次出现后一个元素比前一个元素小的位置为起始位置
+        //从后往前，第一次出现后一个元素比前一个元素小的位置为结束位置
+        //时间复杂度：O（N）空间复杂度：O（1）
+
+        //从前往后
+        int i = 0;
+        while(i < nums.size()-1 && nums[i] <= nums[i+1])
+            i++;
+        //从后往前
+        int j = nums.size()-1;
+        while(j >= 1 && nums[j-1] <= nums[j])
+            j--;
+        //当j<i时，不存在
+        if(j < i)
+            return 0;
+        //判断当前无序区间的最大最小元素是否需要往前、后插入,从而确定区间
+
+        //找最大最小
+        int max = nums[i],min = nums[i];
+        for(int k = i+1;k <= j;k++)
+        {
+            if(nums[k] > max)
+                max = nums[k];
+            else if(nums[k] < min)
+                min = nums[k];
+        }
+        //判断最小值是否需要插入在[0,i）这个区间
+        for(int k = 0;k < i;k++)
+        {
+            if(min < nums[k])
+            {
+                i = k;
+                break;
+            }
+        }
+        //判断最大值是否需要插入在(j,nums.size()-1]
+        for(int k = nums.size()-1;k > j;k--)
+        {
+            if(max > nums[k])
+            {
+                j = k;
+                break;
+            }
+        }
+        return j -i +1;
+    }
+};
