@@ -1,0 +1,96 @@
+class Stack{
+public:
+    //入栈
+    void StackPush(string x){
+        _a.push_back(x);
+    }
+    //出栈
+    void StackPop(){
+            _a.pop_back();
+    }
+    //判断栈空
+    bool StackEmpty(){
+        return !(_a.size());
+    }
+    //获取栈顶元素
+    string& StackTop(){
+        return _a.back();
+    }
+private:
+    vector<string> _a;
+};
+class Solution {
+public:
+    //逆置字符串
+    void Inverted(string& str){
+        string::iterator b = str.begin();
+        string::iterator e = str.end()-1;
+        while(b < e){
+            char ch = *b;
+            *b = *e;
+            *e = ch;
+            b++;
+            e--;
+        }
+    }
+    //将字符串转为整数
+    int StringToInt(string& str){
+        string::iterator it = str.begin();
+        int flag = 1;
+        if(*it == '-'){
+            flag = -1;
+            it++;
+        }
+        int ret = 0;
+        while(it < str.end()){
+            ret = ret*10 + (*it - '0');
+            it++;
+        }
+        return ret*flag;
+    }
+    //将整数转成字符串
+    string IntToString(int num){
+        string str;
+        int num1 = num;
+        if(num < 0)
+            num1 = -num;
+        while(num1){
+            str.push_back(num1%10+'0');
+            num1/=10;
+        }
+        if(num < 0)
+            str.push_back('-');
+        Inverted(str);
+        return str;
+    }
+    int evalRPN(vector<string>& tokens) {
+        Stack st;
+        //遍历vector
+        for(int i = 0;i < tokens.size();i++){
+            //如果为运算符，就从栈中取两个元素进行元素
+            if(tokens[i].compare("+") == 0 || tokens[i].compare("-") == 0 || tokens[i].compare("*") == 0 || tokens[i].compare("/") == 0){
+                //获取栈顶元素并转为整数
+                int num1 = StringToInt(st.StackTop());
+                //栈顶元素出栈
+                st.StackPop();
+                int num2 = StringToInt(st.StackTop());
+                st.StackPop();
+                //将num1 num2的结果转为string并入栈
+                if(tokens[i].compare("+") == 0){
+                    st.StackPush(IntToString(num1+num2));
+                }else if(tokens[i].compare("-") == 0){
+                    st.StackPush(IntToString(num2-num1));
+                }else if(tokens[i].compare("*") == 0){
+                    st.StackPush(IntToString(num1*num2));
+                }else{
+                    
+                    st.StackPush(IntToString(num2/num1));
+                }
+            }
+            //不是运算符就进行入栈
+            else
+                st.StackPush(tokens[i]);
+        }
+        return StringToInt(st.StackTop());
+    }
+};
