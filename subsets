@@ -1,0 +1,19 @@
+class Solution {
+public:
+    void backtrack(vector<int>nums,vector<int>&path,int start,vector<vector<int>>& ret){
+        ret.push_back(path);//加入路径
+
+        for(int i = start;i < nums.size();i++){
+            path.push_back(nums[i]);//做出选择
+            backtrack(nums,path,i+1,ret);
+            path.pop_back();//撤销选择
+        }
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ret;
+        vector<int> path;
+        backtrack(nums,path,0,ret);
+
+        return ret;
+    }
+};
