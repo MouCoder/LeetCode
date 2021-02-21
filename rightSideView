@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        //层序遍历二叉树，输出每一层的最后一个节点
+        vector<int> ret;
+        queue<TreeNode*> myQueue;
+        //如果根节点为空，就直接返回空数组
+        if(root != NULL){
+            myQueue.push(root);
+        }
+        //当队列为空时，该二叉树就遍历完了
+        while(!(myQueue.empty())){
+            //当前队列中的元素个数应该为这一层元素个数
+            int size = myQueue.size();
+            for(int i = 0;i < size;i++){
+                //如果是最后一个元素，就要加入数组中
+                if(i == size - 1){
+                    ret.push_back((myQueue.front())->val);
+                }
+                //如果左右子树不为空，就继续入队
+                if((myQueue.front())->left){
+                    myQueue.push((myQueue.front())->left);
+                }
+                if((myQueue.front())->right){
+                    myQueue.push((myQueue.front())->right);
+                }
+                //队头元素出队
+                myQueue.pop();
+            }
+        }
+        return ret;
+    }
+};
