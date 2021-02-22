@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool validPalindrome(string s) {
+        int begin = 0;
+        int end = s.length()-1;
+        while(begin < end){
+            if(s[begin] == s[end]){
+                begin++;
+                end--;
+            }
+            else {
+                //删除begin处的字符，判断是否为回文
+                int begin1 = begin+1;
+                int end1 = end;
+                while(begin1<end1){
+                    if(s[begin1]==s[end1]){
+                        begin1++;
+                        end1--;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                //删除end处的字符判断是否为回文
+                if(begin1 < end1){
+                    int begin2 = begin;
+                    int end2 = end-1;
+                    while(begin2<end2){
+                        if(s[begin2]==s[end2]){
+                            begin2++;
+                            end2--;
+                        }else{
+                            break;
+                        }
+                    }
+                    if(begin2<end2){
+                        return false;
+                    }
+                }
+                break;
+            }
+        }
+        return true;
+    }
+};
