@@ -1,0 +1,30 @@
+typedef struct TreeNode TreeNode;
+TreeNode* _buildTree(int* preBegin,int* preEnd,int* inBegin,int* inEnd){
+    //创建节点
+    TreeNode* root = (TreeNode*)malloc(sizeof(TreeNode));
+    root->val = preBegin[0];//前序序列的第一个值为根节点
+    root->left = root->right = NULL;
+    //如果根节点的左右子树为NULL，返回根节点(前序或者中序序列中只有根节点)
+        if(preBegin == preEnd){
+            return root;
+        }
+        //在中序序列中找到根节点
+        int* inRoot = inBegin;
+        while(*inRoot != preBegin[0]){
+            inRoot++;
+        }
+        //创建左子树
+        if(inBegin < inRoot)
+            root->left = _buildTree(preBegin+1,preBegin+(inRoot - inBegin),inBegin,inRoot-1);
+        //创建右子树
+        if(inRoot < inEnd){
+            root->right = _buildTree(preBegin+(inRoot - inBegin)+1,preEnd,inRoot+1,inEnd);
+        }
+        return root;
+}
+struct TreeNode* buildTree(int* preorder, int preorderSize, int* inorder, int inorderSize){
+    if(preorderSize == 0 && inorderSize == 0){
+            return NULL;
+        }
+    return _buildTree(preorder,preorder+preorderSize-1,inorder,inorder+inorderSize-1);
+}
