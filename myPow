@@ -1,0 +1,35 @@
+bool equal(double x,double y){
+    //浮点数不能直接比较大小，当浮点数超出精度范围后，编译器会自动截断超出精度部分，可能会导致两个本不相等的浮点数判断为相等
+    //一般认为两个浮点数的差值小于0.0000001时两个浮点数就相等
+    if(x - y > -0.0000001 && x-y < 0.0000001)
+        return true;
+    return false;
+}
+double _power(double x,unsigned int n){
+    if(n == 0){
+        return 1;
+    }
+    if(n == 1)
+        return x;
+    double result = _power(x,n >> 1);
+    result *= result;
+    //判断n是否为奇数
+    if(n & 1 == 1)
+        result *= x;
+    return result;
+}
+double myPow(double x, int n){
+    double result = 1.0;
+    //当x为0且n<0时，为了防止对0求倒数，直接返回0
+    if(equal(x,0.0) && n < 0){
+        return 0.0;
+    }
+    unsigned int absN = (unsigned int)n;
+    if(n < 0){
+        absN = -absN;
+    }
+    result = _power(x,absN);
+    if(n < 0)
+        return 1.0/result;
+    return result;
+}
