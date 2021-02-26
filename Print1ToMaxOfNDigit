@@ -1,0 +1,59 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<iostream>
+#include<string>
+using namespace std;
+
+//字符串+1函数（返回值表示+1后是否为最大值）
+bool Increment(string& str){
+	string::iterator it = str.end()-1;
+	int flag = 1;//进位标志位
+	while (it >= str.begin()){
+		//如果这一位+1大于9，这一位置0下一位继续加1；如果这一位+1<=9，则这一位+1就结束了
+		if (*it == '9'){
+			//如果已经是第一位了，返回true
+			if (it == str.begin()){
+				return true;
+			}
+			*it = '0';
+			it--;
+		}
+		else{
+			*it = *it + 1;
+			break;
+		}
+	}
+	return false;
+}
+//字符串打印函数
+void PrintNumber(string& str){
+	string::iterator it = str.begin();
+	//去掉前边没用的0
+	while (it != str.end()){
+		if (*it != '0'){
+			cout << *it;
+		}
+		it++;
+	}
+	cout << ' ';
+}
+void Print1ToMaxOfNDigit(int n){
+	if (n <= 0){
+		cout << "error" << endl;
+		return;
+	}
+	//打印从1到最大的n位整数
+	string num;
+	//将字符串初始化为n位全0的字符串
+	for (int i = 1; i <= n; i++){
+		num += "0";
+	}
+	//对字符串+1并打印
+	while (!(Increment(num))){
+		PrintNumber(num);
+	}
+}
+
+int main(){
+	Print1ToMaxOfNDigit(6);
+	return 0;
+}
