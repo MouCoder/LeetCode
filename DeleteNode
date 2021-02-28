@@ -1,0 +1,43 @@
+void deleteNode(ListNode** pListHead,ListNode* pToBeDelete)    
+  {    
+    //如果链表为NULL或者要删除的节点不存在（为NULL）。退出    
+    if(*pListHead == NULL || pToBeDelete == NULL)    
+      return;    
+    //如果要删除的节点是最后一个节点或者链表中只有一个节点（删除的节点也是最后一个节点）    
+    if(pToBeDelete->next == NULL)    
+    {    
+      //遍历链表，找到要删除的节点的前驱节点    
+      ListNode* prev = NULL;    
+      ListNode* curr = head;    
+      while(curr)    
+      {    
+        //如果链表中只有一个节点（要删除的节点是第一个也是最后一个）    
+        if(curr == pToBeDelete)    
+        {    
+          if(curr == head)    
+          {    
+            free(head);    
+            head = NULL;    
+          }    
+          else    
+          {    
+            prev->next = curr->next;    
+            free(curr);    
+            curr = NULL;    
+          }    
+          break;    
+        }    
+        prev = curr;    
+        curr = curr->m_Pnext;    
+      }    
+    }                                                                                                                                                                                      
+    else     
+    {    
+      //复制后一个节点的值到要删除的节点，删除要删除节点的next    
+      pToBeDelete->m_nValue = pToBeDelete->m_Pnext->m_nValue;    
+      pToBeDelete->next = pToBeDelete->next->next;
+      free(pToBeDelete);
+      pToBeDelete = NULL;
+    }
+}
+ 
