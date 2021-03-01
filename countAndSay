@@ -1,0 +1,25 @@
+//递归
+class Solution {
+public:
+    string countAndSay(int n) {
+        if(n == 1)
+            return "1";
+        string str = countAndSay(n-1);
+        //对str进行描述并返回
+        string::iterator curr = str.begin();
+        string ret;
+        while(curr < str.end())
+        {
+            int count = 1;
+            while(curr < str.end()-1 && *curr == *(curr+1))
+            {
+                count++;
+                curr++;
+            }
+            ret.push_back(count+'0');
+            ret.push_back(*curr);
+            curr++;
+        }
+        return ret;
+    }
+};
