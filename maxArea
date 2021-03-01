@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        //双指针法，那边小那边走（在移动距离最小的情况下使得盛水量增多）
+        vector<int>::iterator begin = height.begin();
+        vector<int>::iterator end = height.end()-1;
+        int max = (*begin<*end?*begin:*end)*(end - begin);
+        while(begin < end)
+        {
+            int capacity = (*begin<*end?*begin:*end)*(end - begin);
+            if(max < capacity)
+            {
+                max = capacity;
+            }
+            if(*begin < *end)
+            {
+                begin++;
+            }
+            else
+            {
+                end--;
+            }
+        }
+        return max;
+    }
+};
