@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int sumNums(int n) {
+        //利用递归代替循环，短路与代替条件判断
+        //n && (n += sumNums(n-1));
+        //return n;
+
+        //等差数列求和公式（当n比较大时，递归就会出现问题）
+        //return n+n*(n-1)/2;
+    }
+};
