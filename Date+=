@@ -1,0 +1,79 @@
+#include<iostream>
+using namespace std;
+
+class Date{
+public:
+    Date(int year,int month,int day){
+        _year = year;
+        _month = month;
+        _day = day;
+    }
+    int GetMonthDay(int year,int month){
+        if(month == 2){
+            //判断是否为闰年
+            if((year % 4 == 0 && year%100 != 0) || year%400 == 0){
+                return 29;
+            }
+            return 28;
+        }
+        if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
+            return 31;
+        }
+        else{
+            return 30;
+        }
+    }
+    Date& operator+=(int days){
+        _day += days;
+        //将日期调整合法
+        //将日期调整合法
+	    while(_day > this->GetMonthDay(_year, _month))
+	    {
+		    _day -= this->GetMonthDay(_year,_month);
+		    _month++;
+		    if (_month > 12)
+		    {
+			    _month = _month % 12;
+			    _year++;
+		    }
+	    }
+        return *this;
+    }
+    void print(){
+        cout<<_year<<"-";
+        if(_month <= 9){
+            cout<<"0"<<_month<<"-";
+        }
+        else{
+            cout<<_month<<"-";
+        }
+        if(_day <= 9){
+            cout<<"0"<<_day<<endl;
+        }
+        else{
+            cout<<_day<<endl;
+        }
+    }
+private:
+    int _year;
+    int _month;
+    int _day;
+};
+
+int main(){
+    int nums = 0;
+    cin>>nums;
+    int year,month,day;
+    int days;
+    for(int i = 1;i <= nums;i++){
+        cin>>year;
+        cin>>month;
+        cin>>day;
+        cin>>days;
+        Date dt(year,month,day);
+        dt.operator+=(days);
+        dt.print();
+    }
+    
+    return 0;
+}
