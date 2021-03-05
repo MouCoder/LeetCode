@@ -1,0 +1,28 @@
+class Sum{
+public:
+    Sum(){
+        _ret += _i;
+        _i++;
+    }
+    ~Sum(){
+        _ret = 0;
+        _i = 1;
+    }
+    static int GetRet(){
+        return _ret;
+    }
+private:
+    static int _ret;
+    static int _i;
+};
+int Sum::_ret = 0;
+int Sum::_i = 1;
+class Solution {
+public:
+    int Sum_Solution(int n) {
+        Sum arr[n];
+        //需要注意的是，静态成员变量所有对象使用一个，因此创建第二个对象调用构造函数时还保存了第一次静态成员变量的值。
+        //解决办法：每个创建一个新的对象都对静态成员变量重新赋值，不保存原来的值。这里就可以使用西沟函数，来改变静态成员变量的额值
+        return Sum::GetRet();
+    }
+};
