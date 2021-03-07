@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> ret;
+        if(matrix.size() == 0)
+            return ret;
+        //左右方向的边界
+        int left = 0,right = matrix[0].size();
+        //上下方向上的边界
+        int top = 1,down = matrix.size();
+        while(left <= right && top <= down)
+        {
+            //从左向右
+            for(int i = left;i < right;i++)
+                ret.push_back(matrix[top-1][i]);
+            right--;
+            //判断是否打印完毕
+            if(top >= down)
+                break;
+            //从上向下打印
+            for(int i = top;i < down;i++)
+                ret.push_back(matrix[i][right]);
+            down--;
+            if(left >= right)
+                return ret;
+            //从右向左
+            for(int i = right-1;i >= left;i--)
+                ret.push_back(matrix[down][i]);
+            left++;
+            if(top >= down)
+                return ret;
+            //从下向上
+            for(int i = down-1;i >= top;i--)  
+                ret.push_back(matrix[i][left-1]);
+            top++;
+            if(left >= right)
+                break;
+        }
+        return ret;
+    }
+};
