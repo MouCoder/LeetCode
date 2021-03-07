@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool hasSubTree(TreeNode* A,TreeNode* B){
+        //如果A为空，B不为空，返回false;如果B为空，返回true
+        if(B == NULL){
+            return true;
+        }
+        if(A == NULL){
+            return false;
+        }
+        //判断是否存在子结构
+        //如果根节点不同，则不存在。否则，判断左右子树
+        if(A->val != B->val){
+            return false;
+        }
+
+        return hasSubTree(A->left,B->left) && hasSubTree(A->right,B->right);
+    }    
+    bool isSubStructure(TreeNode* A, TreeNode* B) {
+        if(A == NULL || B == NULL){
+            //两棵树都不能为NULL
+            return false;
+        }
+        //在A中查找与B的根节点相同的节点
+        bool ret = false;
+        //判断根节点是否相同
+        if(A->val == B->val){
+            //判断是否存在这样的子结构
+            ret = hasSubTree(A,B);
+        }
+        //如果根节点不相同或者根节点相同但不存在这样的子结构，查找左右子树中是否存在与B相同的节点
+        if(!(ret)){
+            //在左子树中查找，如果找到就不在右子树中找，因此如果找到需要将ret变为true
+            ret = isSubStructure(A->left,B);
+        }
+        if(!(ret)){
+            //左子树中没有找到，继续在右子树中查找
+            ret = isSubStructure(A->right,B);
+        }
+        return ret;
+    }
+};
