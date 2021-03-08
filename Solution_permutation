@@ -1,0 +1,35 @@
+class Solution {
+public:
+    void _permutation(string s,int start,int size,string& path,vector<string>& ret){
+        //将路径假如结果集
+        if(start == size){
+            //如果结果已经存在就不在假如
+            for(int i = 0;i < ret.size();i++)
+                if(ret[i].compare(path) == 0)
+                    return;
+            ret.push_back(path);
+            return;
+        }
+        for(int i = start;i < size;i++){
+            //更换第一部分的字符
+            if(start != i){
+                char tmp = s[start];
+                s[start] = s[i];
+                s[i] = tmp;
+            }
+            //将第一部分加入路径
+            path.push_back(s[start]);
+            //对第二部分进行排列
+            _permutation(s,start+1,size,path,ret);
+            path.pop_back();
+        }
+    }
+    vector<string> permutation(string s) {
+        vector<string> ret;
+        if(s[0] == '\0')
+            return ret;
+        string path;
+        _permutation(s,0,s.size(),path,ret);
+        return ret;        
+    }
+};
