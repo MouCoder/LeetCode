@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int length = nums.size();
+        int val = nums[0],frequency = 0;
+        for(int i = 0;i < length;i++)
+        {
+            if(nums[i] != val)
+            {
+                frequency--;
+                if(frequency == 0)
+                {
+                    frequency = 1;
+                    val = nums[i];
+                }
+            }
+            else
+            {
+                frequency++;
+            }
+        }
+        return val;
+    }
+};
