@@ -1,0 +1,122 @@
+//方法1
+class Solution {
+public:
+    void swap(int* a,int*b)
+    {
+        int tmp = *a;
+        *a = *b;
+        *b = tmp;
+    }
+    //向下调整算法,调整大堆
+    void AdjustDown(vector<int>& arr,int root,int size)
+    {
+        //根节点为下标为root,左孩子节点为：root*2+1 右孩子节点为：root*2+2
+        int child = root*2 + 1;
+        while(child < size)
+        {
+            //child为左右孩子中较大的一个
+            if(child + 1 < size && arr[child] < arr[child + 1])
+                ++child;
+            //如果孩子节点大于父节点，交换
+            if(arr[root] < arr[child])
+            {
+                swap(&arr[root],&arr[child]);
+                root = child;
+                child = root*2 + 1;
+            }
+            else
+                break;
+        }
+    }
+    //建堆
+    void CreateHeap(vector<int>& heap,int size)
+    {
+        //从最后一个非孩子节点开始使用向下调整算法
+        for(int i = (size - 2)/2;i >= 0;i--)
+        {
+            AdjustDown(heap,i,size);
+        }
+    }
+    vector<int> getLeastNumbers(vector<int>& arr, int k) {
+        //建含有K个节点的大堆
+        vector<int> ret;
+        if(k <= 0 || arr.size() <= 0)
+            return ret;
+        for(int  i = 0;i < k;i++)
+        {
+            ret.push_back(arr[i]);
+        }
+        CreateHeap(ret,k);
+        //遍历数组，调整堆
+        for(int i = k;i < arr.size();i++)
+        {
+            if(arr[i] < ret[0])
+            {
+                ret[0] = arr[i];
+                AdjustDown(ret,0,k);
+            }
+        }
+        return ret;
+    }
+};
+//方法2
+class Solution {
+public:
+    void swap(int* a, int* b)
+    {
+	    int tmp = *a;
+	    *a = *b;
+	    *b = tmp;
+    }
+    int Partition(vector<int>& nums,int start,int end)
+    {
+        if(start < end)
+        {
+            //产生一个在start和end之间的随机数作为中间值进行比较
+            int index = (rand() % (end - start)) + start + 1;
+            //将最右边的值和index处的值交换
+            swap(&nums[end],&nums[index]);
+
+            int small = start - 1;//small及其前边的数都是小于end处的值
+            for (int i = start; i < end; i++)
+            {
+                if (nums[i] < nums[end])
+                {
+                    ++small;//让small指向比nums[end]大的值，需要时进行交换
+                    if (small != i)
+                    swap(&nums[i], &nums[small]);
+                }
+            }
+            ++small;
+            //将end放入合适的位置
+            swap(&nums[end],&nums[small]);
+
+            //返回small
+            return small;
+        }
+        return 0;
+    }
+    void _getLeastNumbers(vector<int>& arr,int k,int start,int end)
+    {
+        int index = Partition(arr,start,end);
+
+        while(index != k-1)
+        {
+            if(index < k-1)
+                index = Partition(arr,index+1,end);
+            else if(index > k-1)
+                index = Partition(arr,start,index-1);
+        }
+    }
+    vector<int> getLeastNumbers(vector<int>& arr, int k) {
+        vector<int> ret;
+        if(k <= 0 || arr.size() <= 0)
+            return ret;
+        _getLeastNumbers(arr,k,0,arr.size()-1);
+        for(int i = 0;i < k;i++)
+        {
+            ret.push_back(arr[i]);
+        }
+        return ret;
+    }
+};
