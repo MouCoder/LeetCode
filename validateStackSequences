@@ -1,0 +1,37 @@
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        if(pushed.size() == 0 || popped.size() == 0)
+            return true;
+        int popSize = popped.size();
+        int pushSize = pushed.size();
+        int pushedI = 0;
+        stack<int> mystack;//创建一个stack类型的对象作为辅助栈
+        //遍历出栈序列
+        for(int i = 0;i < popSize;i++)
+        {
+            if(mystack.empty() || mystack.top() != popped[i])
+            {
+                //让入栈序列入栈
+                while(pushedI < pushSize && (mystack.empty() || mystack.top() != popped[i]))
+                {
+                    mystack.push(pushed[pushedI++]);
+                }
+                if(pushedI == pushSize && mystack.top() != popped[i])
+                {
+                    return false;
+                }
+            }
+            //如果栈顶元素和出栈元素相等，栈顶元素出栈，继续判断下一个
+            if(mystack.top() == popped[i])
+            {
+                mystack.pop();
+            }
+        }
+        //如果栈为null且pushedI==pushedSize时return true
+        if(mystack.empty() && pushedI == pushSize)
+            return true;
+        else 
+            return false;
+    }
+};
