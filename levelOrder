@@ -1,0 +1,173 @@
+//leetcode从上向下打印二叉树
+class Solution {
+public:
+    vector<int> levelOrder(TreeNode* root) {
+        vector<int> ret;
+        if(root == NULL)
+            return ret;
+        //创建队列对象
+        queue<TreeNode*> myQueue;
+        //根节点入队
+        myQueue.push(root);
+        while(!myQueue.empty())
+        {
+            //队头节点的左右孩子节点入队
+            if(myQueue.front()->left)
+                myQueue.push(myQueue.front()->left);
+            if(myQueue.front()->right)
+                myQueue.push(myQueue.front()->right);
+            //队头节点出队
+            ret.push_back(myQueue.front()->val);
+            myQueue.pop();
+        }
+        return ret;
+    }
+};
+//leetcode从上向下打印二叉树II
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ret;
+        //如果二叉树为空，返回空数组
+        if(root == NULL)
+            return ret;
+        queue<TreeNode*> myQueue;
+        //根节点入队
+        myQueue.push(root);
+        //初始化临时变量和临时数组
+        int count1 = 1;//当前层节点个数
+        int count2 = 0;//下一层节点个数
+        int row = 0;//当前层数
+        vector<int> ret1;
+        while(!myQueue.empty())
+        {
+            //如果当前层数已经遍历完，count1就为0
+            if(count1 == 0)
+            {
+                //将临时数组加入ret中
+                ret.push_back(ret1);
+                //清空临时数组
+                while(!ret1.empty())
+                    ret1.pop_back();
+                //更新当前层节点数，进入下一层
+                count1 = count2;
+                //更新下一层节点数
+                count2 = 0;
+                //更新层数
+                row++;
+            }
+            //获取队头节点存入临时数组中
+            ret1.push_back(myQueue.front()->val);
+            //每存入一个，当前层节点数-1
+            count1--;
+            //将队头节点的左右孩子节点入队
+            if(myQueue.front()->left)
+            {
+                myQueue.push(myQueue.front()->left);
+                //每箱队列中加入一个节点，下一层节点数+1
+                count2++;
+            }
+            if(myQueue.front()->right)
+            {
+                myQueue.push(myQueue.front()->right);
+                count2++;
+            }
+            //队头节点已经存入到临时数组中，将队头节点出队
+            myQueue.pop();
+        }
+        //如果临时数组中有还没有加入到ret中的，就要加入
+        if(!ret1.empty())
+            ret.push_back(ret1);
+        return ret;
+    }
+};
+//从上相信爱打印而出书III
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ret;
+        //如果二叉树为空，返回空数组
+        if(root == NULL)
+            return ret;
+        queue<TreeNode*> myQueue;
+        //根节点入队
+        myQueue.push(root);
+        //初始化临时变量和临时数组
+        int count1 = 1;//当前层节点个数
+        int count2 = 0;//下一层节点个数
+        int row = 0;//当前层数
+        vector<int> ret1;
+        while(!myQueue.empty())
+        {
+            //如果当前层数已经遍历完，count1就为0
+            if(count1 == 0)
+            {
+                //偶数行要反转数组从右向左打印
+                if(row%2 != 0)
+                {
+                    vector<int>::iterator begin = ret1.begin();
+                    vector<int>::iterator end = ret1.end()-1;
+                    while(begin < end)
+                    {
+                        int tmp = *begin;
+                        *begin = *end;
+                        *end = tmp;
+                        begin++;
+                        end--;
+                    }
+                }
+                //将临时数组加入ret中
+                ret.push_back(ret1);
+                //清空临时数组
+                while(!ret1.empty())
+                    ret1.pop_back();
+                //清空临时数组
+                while(!ret1.empty())
+                    ret1.pop_back();
+                //更新当前层节点数，进入下一层
+                count1 = count2;
+                //更新下一层节点数
+                count2 = 0;
+                //更新层数
+                row++;
+            }
+            //获取队头节点存入临时数组中
+            ret1.push_back(myQueue.front()->val);
+            //每存入一个，当前层节点数-1
+            count1--;
+            //将队头节点的左右孩子节点入队
+            if(myQueue.front()->left)
+            {
+                myQueue.push(myQueue.front()->left);
+                //每箱队列中加入一个节点，下一层节点数+1
+                count2++;
+            }
+            if(myQueue.front()->right)
+            {
+                myQueue.push(myQueue.front()->right);
+                count2++;
+            }
+            //队头节点已经存入到临时数组中，将队头节点出队
+            myQueue.pop();
+        }
+        //如果临时数组中有还没有加入到ret中的，就要加入
+        if(!ret1.empty())
+        {
+            if(row%2 != 0)
+            {
+                vector<int>::iterator begin = ret1.begin();
+                vector<int>::iterator end = ret1.end()-1;
+                while(begin < end)
+                {
+                    int tmp = *begin;
+                    *begin = *end;
+                    *end = tmp;
+                    begin++;
+                    end--;
+                }
+            }
+            ret.push_back(ret1);
+        }
+        return ret;
+    }
+};
