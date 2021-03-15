@@ -1,0 +1,19 @@
+class Solution {
+public: 
+    vector<int> replaceElements(vector<int>& arr) {
+        //逆序遍历数组，找最大值
+        int size = arr.size();
+        if(size == 0)
+            return arr;
+        int max = arr[size - 1];//最大值
+        arr[size - 1] = -1;
+        for(int i = size - 2;i >= 0;i--)
+        {
+            int tmp = arr[i];
+            arr[i] = max;
+            if(tmp > max)
+                max = tmp;
+        }
+        return arr;
+    }
+};
