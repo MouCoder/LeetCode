@@ -1,0 +1,77 @@
+//递归解法
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        //如果为空树，返回false
+        if(root == NULL)
+            return false;
+        //如果为只有一个节点的树且该节点与要找的和相等，返回true否则返回false
+        if(root->left == NULL && root->right == NULL)
+        {
+            if(root->val == targetSum)
+                return true;
+            else 
+                return false;
+        }
+        //递归上述过程
+        if(root->left && root->right)
+            return hasPathSum(root->left,targetSum - root->val) || hasPathSum(root->right,targetSum - root->val);
+        else if(root->left)
+            return hasPathSum(root->left,targetSum - root->val);
+        else
+            return hasPathSum(root->right,targetSum - root->val);
+    }
+};
+
+//用栈解
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(root == NULL)
+            return false;
+        int sum = root->val;//栈中元素和
+        stack<TreeNode*> mystack;
+        mystack.push(root);
+        while(!mystack.empty())
+        {
+            if(mystack.top()->left == NULL && mystack.top()->right == NULL)
+            {
+                if(sum == targetSum)
+                    return true;
+                else
+                {
+                    TreeNode* node = NULL;
+                    while(!mystack.empty())
+                    {
+                        if(mystack.top()->right == node || mystack.top()->right == NULL)
+                        {
+                            sum -= mystack.top()->val;
+                            node = mystack.top();
+                            mystack.pop();
+                        }
+                        else
+                        {
+                            mystack.push(mystack.top()->right);
+                            sum += mystack.top()->val;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if(mystack.top()->left)
+                {
+                    mystack.push(mystack.top()->left);
+                    sum += mystack.top()->val;
+                }
+                else
+                {
+                    mystack.push(mystack.top()->right);
+                    sum += mystack.top()->val;
+                }
+            }
+        }
+        return false;
+    }
+};
