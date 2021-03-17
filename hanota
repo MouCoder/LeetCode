@@ -1,0 +1,23 @@
+class Solution {
+public:
+    void _hanota(int n,vector<int>& A,vector<int>& B,vector<int>& C)
+    {
+        //只有一个盘子时，直接放到C即可
+        if(n == 1)
+        {
+            C.push_back(A.back());
+            A.pop_back();
+            return;
+        }
+        //将A中的n-1个盘子放到B中
+        _hanota(n-1,A,C,B);
+        //将A中的1个盘子放到C
+        _hanota(1,A,B,C);
+        //将B中的n个盘子通过A放到C
+        _hanota(n-1,B,A,C);
+    }
+    void hanota(vector<int>& A, vector<int>& B, vector<int>& C) {
+        //递归
+        //_hanota(A.size(),A,B,C);
+    }
+};
