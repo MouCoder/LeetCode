@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        //遍历数组，让数组元素入栈，入栈时如果栈顶元素与入栈元素值相反，则较小的出栈
+        stack<int> mystack;
+        for(int i = 0;i < asteroids.size();i++)
+        {
+            //如果栈中没有元素，就让该元素直接入栈
+            if(mystack.empty())
+                mystack.push(asteroids[i]);
+            //判断栈顶元素和要入栈元素的大小和正负
+            else if(asteroids[i] < 0 && mystack.top() > 0)
+            {
+                //大小相等同时爆炸
+                if(-asteroids[i] == mystack.top())
+                    mystack.pop();
+                else if(asteroids[i] < 0 && -asteroids[i] > mystack.top())
+                {
+                    //栈顶行星小，爆炸。
+                    mystack.pop();
+                    i--;
+                }
+            }
+            //如果两个行星运动方向相同，则入栈
+            else if((mystack.top() > 0 && asteroids[i] > 0) || (mystack.top() < 0 && asteroids[i] < 0))
+                mystack.push(asteroids[i]);
+            else if(mystack.top() < 0 && asteroids[i] > 0)
+                mystack.push(asteroids[i]);
+        }
+        vector<int> ret;
+        //将栈中的元素存入数组（逆序）
+        while(!mystack.empty())
+        {
+            ret.push_back(mystack.top());
+            mystack.pop();
+        }
+        //将数组逆置，得到最终结果
+        vector<int>::iterator begin = ret.begin();
+        vector<int>::iterator end = ret.end();
+        reverse(begin,end);
+        return ret;
+    }
+};
