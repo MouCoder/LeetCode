@@ -1,0 +1,46 @@
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<string> mystack;
+        for(auto e:s)
+        {
+            if(e != ']')
+                mystack.push(string() += e);
+            //如果是]，则开始匹配左[找到[]中的内容
+            else
+            {
+                string str;
+                while(mystack.top() != "[")
+                {
+                    str += mystack.top();
+                    mystack.pop();
+                }
+                //让栈顶的[出栈
+                mystack.pop();
+                //获取栈顶数字，将字符串str重复
+                string num;
+                while((!mystack.empty()) && (mystack.top()[0] >= '0' && mystack.top()[0] <= '9'))
+                {
+                    num += mystack.top()[0];
+                    mystack.pop();
+                }
+                string::iterator itB = num.begin();
+                string::iterator itE = num.end();
+                reverse(itB,itE);
+                for(int i = 1;i <= stoi(num);i++) 
+                    mystack.push(str);
+            }
+        }
+        //从栈中将字符串取出，得到结果
+        string result;
+        while(!mystack.empty())
+        {
+            result += mystack.top();
+            mystack.pop();
+        }
+        string::iterator itB = result.begin();
+        string::iterator itE = result.end();
+        reverse(itB,itE);
+        return result;
+    }
+};
