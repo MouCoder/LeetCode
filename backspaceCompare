@@ -1,0 +1,41 @@
+class Solution {
+public:
+    bool backspaceCompare(string S, string T) {
+        //定义两个栈，让两个字符串中的元素依次入栈，遇到#就出栈，最后判断两个栈中的元素是否相等
+        stack<char> stackS;
+        stack<char> stackT;
+        //S入栈
+        for(int i = 0;i < S.size();i++)
+        {
+            if(S[i] == '#')
+            {
+                if(!stackS.empty())
+                    stackS.pop();
+                continue;
+            }
+            stackS.push(S[i]);
+        }
+        //T入栈
+        for(int i = 0;i < T.size();i++)
+        {
+            if(T[i] == '#')
+            {
+                if(!stackT.empty())
+                    stackT.pop();
+                continue;
+            }
+            stackT.push(T[i]);
+        }
+        //比较两个栈中的元素是否相等
+        while(!stackS.empty() && !stackT.empty())
+        {
+            if(stackS.top() != stackT.top())
+                return false;
+            stackS.pop();
+            stackT.pop();
+        }
+        if(stackS.empty() && stackT.empty())
+            return true;
+        return false;
+    }
+};
