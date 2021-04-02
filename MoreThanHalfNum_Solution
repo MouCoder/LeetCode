@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int MoreThanHalfNum_Solution(vector<int> numbers) {
+        //保存两个值，一个为数组中元素，另一个为该元素出现的次数
+        //遍历数组，如果数组元素与该元素相等，则次数加1，否则次数减1，当次数为0时更新值
+        int num = numbers[0],count = 1;
+        for(int i = 1;i < numbers.size();i++)
+        {
+            if(numbers[i] == num)
+                count++;
+            else
+                count--;
+            if(count == 0)
+            {
+                num = numbers[i];
+                count++;
+            }
+        }
+        //统计num在数组中出现的次数，如果确实超过数组元素的一半则返回否则不存在
+        count = 0;
+        for(auto e : numbers)
+        {
+            if(e == num)
+                count++;
+        }
+        if(count > numbers.size()/2)
+            return num;
+        return 0;
+    }
+};
