@@ -1,0 +1,37 @@
+//递归解法
+class Solution {
+public:
+    int _addDigits(int num)
+    {
+        int ret = 0;
+        while(num)
+        {
+            ret += num%10;
+            num /= 10;
+        }
+        return ret;
+    }
+    int addDigits(int num) {
+        int ret = _addDigits(num);
+        if(ret <= 9)
+            return ret;
+        return addDigits(ret);
+    }
+};
+
+//时间复杂度O(1)
+class Solution {
+public:
+    int addDigits(int num) {
+        //对于一个大于9的十进制数，个位之和x+9的整数倍y=该十进制数
+        //例如：30 = 3*9 +（3+0）  38 = 27 +（3+8）
+        //当x < 10时就是最终结果，当x>=10时继续按照这个思路可求得最终解
+        //例如：38 = 3*9 + （3+8） = 27 + 11 -》 11 = 1*9 + （1+1） -》1+1为最终结果
+        //根据这个例题，可以得出一个结论，当一个数大于9时，num%9即为最终答案，特烈当num为9的整数倍时结果为9
+        if(num < 10)
+            return num;
+        else if(num % 9 == 0)
+            return 9;
+        else return num%9;
+    }
+};
