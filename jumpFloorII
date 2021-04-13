@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int jumpFloorII(int number) {
+        //写法1
+        /*if(number <= 1)
+            return number;
+        int fn1 = 1;//初始状态f(1)=1
+        int fn;//结果
+        for(int i = 2;i <= number;i++)
+        {
+            fn = 2*fn1;
+            fn1 = fn;
+        }
+        return fn;*/
+        
+        //写法2
+        //每一项的值都是前一项的2倍，第一项的值为1，等比数列:sn = 2^n - 1
+        return (1<<number)/2;
+    }
+};
