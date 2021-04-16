@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int minimumTotal(vector<vector<int> > &triangle) {
+        if(triangle.empty())
+            return 0;
+        int len = triangle.size();
+        vector<vector<int>> status(triangle);//保存状态，初始状态为status[0][0] = triam=ngle[0][0]
+        int fi;//到达第i层的最小路径
+        for(int i = 1;i < len;i++)
+        {
+            for(int j = 0;j <= i;j++)//第i层有i个元素
+            {
+                if (j == 0)
+                {
+                     status[i][j] = status[i - 1][j];
+                 }
+                 else if (j == i)
+                 {
+                     status[i][j] = status[i - 1][j - 1];
+                 }
+                 else
+                 {
+                     status[i][j] = min(status[i - 1][j], status[i - 1][j - 1]);
+                 }
+                
+                status[i][j] += triangle[i][j];
+            }
+        }
+        //找最小
+        fi = status[len-1][0];
+        for(int i = 0;i < len;i++)
+        {
+            if(fi > status[len-1][i])
+                fi = status[len-1][i];
+        }
+        return fi;
+    }
+};
