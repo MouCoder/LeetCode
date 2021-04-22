@@ -1,0 +1,25 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+//输入n--->队伍数量
+int n = 0;
+cin >> n;
+//将输入的3*n个数保存在vector中
+vector<int> value(3*n,0);
+for(int i = 0;i < 3*n;i++)
+cin>>value[i];
+//水平值之和最大---最大和次大必须在一组
+sort(value.begin(),value.end());//对数组排序---默认排升序
+//从排序后的数组中，从后向前隔着取
+long long ret = 0;//注意：总和可能导致结果int存不下
+for(int i = 3*n-2,count = 0;count < n;i -= 2)
+{
+count++;
+ret += value[i];
+} c
+out<<ret<<endl;
+return 0;
+}
