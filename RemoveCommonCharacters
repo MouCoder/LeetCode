@@ -1,0 +1,20 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+string str1,str2;
+getline(cin,str1);//注意---使用cin遇到空格则不再输入
+getline(cin,str2);
+//遍历字符串，如果字符在另一个字符串中出现，则不保存
+if(str2.empty())
+cout<<str1<<endl;
+string ret;
+for(auto e:str1)
+{
+if(str2.find(e) == string::npos)
+ret.push_back(e);
+} c
+out<<ret;
+return 0;
+}
