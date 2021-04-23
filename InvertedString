@@ -1,0 +1,23 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+int main()
+{
+    std::string str;
+    getline(std::cin,str);
+    //逆置字符串
+    reverse(str.begin(),str.end());
+    //对字符串中的每个单词进行逆置
+    std::string::iterator begin = str.begin();
+    std::string::iterator end = str.begin();
+    while(end < str.end())
+    {
+        while(end < str.end() && *end != ' ')
+            end++;
+        reverse(begin,end);
+        begin = end+1;
+        end++;
+    }
+    std::cout<<str;
+    return 0;
+}
