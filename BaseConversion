@@ -1,0 +1,29 @@
+#include<iostream>
+#include<algorithm>
+#include<string.h>
+int main()
+{
+    int M,N;
+    std::cin>>M>>N;
+    int flag = 1;
+    if(M < 0)
+        flag = -1;
+    M = flag*M;
+    //思路：M%N--》M/N
+    std::string ret;
+    while(M)
+    {
+        int tmp = M%N;
+        if(tmp >= 10)
+            ret += tmp%10 + 'A';
+        else
+            ret += tmp + '0';
+        M /= N;
+    } 
+    reverse(ret.begin(),ret.end());
+    if(flag == 1)
+        std::cout<<ret;
+    else
+    std::cout<<"-"<<ret;
+    return 0;
+}
