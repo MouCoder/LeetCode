@@ -1,0 +1,26 @@
+#include<iostream>
+#include<vector>
+int main()
+{
+  int n;
+  std::cin>>n;
+  std::vector<int> num(n);
+  for(int i = 0;i < n;i++)
+    std::cin>>num[i];
+  //方法：动态规划
+  //初始状态:f0 = num[0];
+  //状态之间的转换：fn = max{fn-1,num[n]}
+  int fn1 = num[0];
+  int fn = fn1;
+  for(int i = 1;i < n;i++)
+  {
+    if(fn1+num[i] < num[i])
+      fn1 = num[i];
+    else
+      fn1 += num[i];
+    if(fn1 > fn)
+      fn = fn1;
+  } 
+  std::cout<<fn;
+  return 0;
+}
