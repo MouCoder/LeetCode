@@ -1,0 +1,23 @@
+#include<iostream>
+int main()
+{
+    int W,H;
+    std::cin>>W>>H;
+    int ret = 0;
+    //每一个两两相隔，每一列两两相隔
+    ret += 2*((W/4) * H);
+    //第1、3行可以放的个数
+    int one,three;
+    if(H%4 == 3)
+        one = 2 + (H/4)*2;
+    else
+        one = H%4 + (H/4)*2;
+    three = H-one;
+    //最后剩下三行
+    if(W%4==3)
+        ret += 2*one+three;
+    else
+        ret += (W%4)*one;
+    std::cout<<ret;
+    return 0;
+}
