@@ -1,0 +1,26 @@
+#include<iostream>
+int main()
+{
+    int A,B;
+    std::cin>>A>>B;
+    int max = A,min = B;
+    //找出两个数中的大数
+    if(A < B)
+    {
+        max = B;
+        min = A;
+    } 
+    //如果大数是小数的整数倍，则最小公倍数为大数
+    if(max%min == 0)
+        std::cout<<max<<std::endl;
+    //给大数依次+1，找到最小一个可以同时被max和min整除的数
+    for(int i = max+1;;i++)
+    {
+        if(i%max == 0 && i%min == 0)
+        {
+            std::cout<<i<<std::endl;点此或手机扫描二维码查看代码编写过程
+            break;
+        }
+    } 
+    return 0;
+}
