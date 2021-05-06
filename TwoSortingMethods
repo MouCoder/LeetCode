@@ -1,0 +1,56 @@
+#include<iostream>
+#include<string>
+#include<vector>
+int main()
+{
+    int n;
+    std::cin>>n;
+    std::vector<std::string> strs(n);
+    bool lengths = true;//是否按照长度排序
+    bool lexic = true;//是否按照字典序排序
+    for(int i = 1;i <= n;i++)
+        std::cin>>strs[i-1];
+        //判断是否按照长度排序
+    int stri;//第i个字符串的长度12
+    int stri1 = 0;//第i-1个字符串的长度
+    for(int i = 0;i < n;i++)
+    {
+        stri = strs[i].size();
+        if(stri < stri1)
+        {
+            lengths = false;
+            break;
+        } 
+        stri1 = stri;
+    } 
+    //判断是否按照字典序排序
+    for(int i = 1;i < n;i++)
+    {
+        std::string::iterator stri1 = strs[i-1].begin();
+        std::string::iterator stri = strs[i].begin();
+        while(stri1 < strs[i-1].end() && stri < strs[i].end() && *stri1 == *stri)
+            ++stri,++stri1;
+        if(stri == strs[i].end() && stri1 != strs[i-1].end())
+        {
+            lexic = false;
+            break;
+        } 
+        else if(stri1 != strs[i-1].end() && stri != strs[i].end())
+        {
+            if(*stri < *stri1)
+            {
+                lexic = false;
+                break;
+            }
+        }
+    } 
+    if(lengths && lexic)
+        std::cout<<"both";
+    else if(lengths)
+        std::cout<<"lengths";
+    else if(lexic)
+        std::cout<<"lexicographically";
+    else
+        std::cout<<"none";
+    return 0;
+}
