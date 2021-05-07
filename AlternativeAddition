@@ -1,0 +1,28 @@
+class UnusualAdd {
+public:
+    int addAB(int A, int B) {
+        int A1 = A;
+        int B1 = B;
+        //位运算
+        int ret = A^B;//将A、B进行不进位加法
+        int flag = 1;//进位
+        //将进位加进去，由于不能使用加法，还得继续使用异或运算，直至进位为0
+        while(flag)
+        {
+            flag = 0;//初始化为0
+            for(int i = 0;i < 32;i++)
+            {
+                int num = 1<<i;
+                if((A1 & num) == num && (B1 & num) == num)
+                {
+                    //需要进位
+                    flag |= (num<<1);
+                }
+            } 
+            A1 = flag;
+            B1 = ret;
+            ret = B1^flag;
+        } 
+        return ret;
+    }
+};
