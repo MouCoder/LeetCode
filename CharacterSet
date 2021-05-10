@@ -1,0 +1,74 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<vector>
+
+int main()
+{
+    std::string str;
+    while(std::cin>>str)
+    {
+        int count[256]={0};
+        int len = str.size();
+        for(int i = 0;i < len;i++)
+        {
+            if(count[str[i]] == 0)
+                std::cout<<str[i];
+            count[str[i]]++;
+        }
+        std::cout<<std::endl;
+    }
+    return 0;
+}
+
+//方法2
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<vector>
+
+int main()
+{
+    std::string str;
+    while(std::cin>>str)
+    {
+        std::string ret;
+        int len = str.size();
+        //O(n^2)的做法：遍历字符串，查找该字符是否在字符串中出现
+        //O(n)的做法：记录字符串中字符的字符是否出现。
+        std::vector<int> v(52,0);
+        for(int i = 0;i < len;i++)
+        {
+            if(str[i] >= 'A' && str[i] <= 'Z')
+            {
+                v[str[i]-'A']++;
+            }
+            else
+            {
+                v[str[i]-'a'+26]++;
+            }
+        }
+        //从后向前遍历字符串
+        for(int i = len-1;i >= 0;i--)
+        {
+            if(str[i] >= 'A' && str[i] <= 'Z')
+            {
+
+                if(v[str[i]-'A'] <= 1)
+                    ret += str[i];
+                v[str[i]-'A']--;
+            }
+            else
+            {
+                if(v[str[i]-'a'+26] <= 1)
+                    ret += str[i];
+                v[str[i]-'a'+26]--;
+            }
+        }
+        std::string::iterator begin = ret.begin();
+        std::string::iterator end = ret.end();
+        reverse(begin,end);
+        std::cout<<ret<<std::endl;
+    }
+    return 0;
+}
