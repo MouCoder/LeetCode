@@ -1,0 +1,77 @@
+#include<iostream> 
+#include<string> 
+int main() 
+{ 
+    std::string pwd; 
+    while(std::cin>>pwd) 
+    { 
+        //长度分值 
+        int value = 0; 
+        int length = pwd.size(); 
+        if(length <= 4) 
+            value = 5; 
+        else if(length >= 8) 
+            value = 25; 
+        else
+            value = 10; 
+        //数字、字母、符号 
+        int digitNum = 0;
+        //数字个数 
+        int greaterLetterNum = 0;
+        //大写字母个数 
+        int sammlerLetterNum = 0;
+        //小写字母个数 
+        int markNum = 0;
+        //符号个数 
+        std::string::iterator cur = pwd.begin(); 
+        while(cur < pwd.end()) 
+        { 
+            if(*cur >= 'A' && *cur <= 'Z') 
+                greaterLetterNum++; 
+            else if(*cur >= 'a' && *cur <= 'z') 
+                sammlerLetterNum++; 
+            else if(*cur >= '0' && *cur <= '9') 
+                digitNum++; 
+                elsemarkNum++;
+                 cur++; 
+        }
+        //字母 
+        if(greaterLetterNum > 0 && sammlerLetterNum > 0) 
+            value += 20; 
+        else if(greaterLetterNum > 0 || sammlerLetterNum > 0) 
+            value += 10; 
+        //数字 
+        if(digitNum == 0 || digitNum == 1) 
+            value += digitNum*10; 
+        else
+            value += 20; 
+        //符号 
+        if(markNum == 0 || markNum == 1) 
+            value += markNum*10; 
+        else
+            value += 25; 
+        //奖励 
+        if(digitNum > 0 && greaterLetterNum > 0 && sammlerLetterNum > 0 && markNum > 0) 
+            value += 5; 
+        else if(digitNum > 0 && (greaterLetterNum > 0 || sammlerLetterNum > 0) && digitNum > 0) 
+            value += 3; 
+        else if(digitNum > 0 && (greaterLetterNum > 0 || sammlerLetterNum > 0)) 
+            value += 2; 
+        //输出结果 
+        if(value >= 90) 
+            std::cout<<"VERY_SECURE"<<std::endl; 
+        else if(value >= 80) 
+            std::cout<<"SECURE"<<std::endl; 
+        else if(value >= 70) 
+            std::cout<<"VERY_STRONG"<<std::endl; 
+        else if(value >= 60) 
+            std::cout<<"STRONG"<<std::endl; 
+        else if(value >= 50) 
+            std::cout<<"AVERAGE"<<std::endl; 
+        else if(value >= 25) 
+            std::cout<<"WEAK"<<std::endl; 
+        else
+            std::cout<<"VERY_WEAK"<<std::endl; 
+    }
+    return 0;
+}
