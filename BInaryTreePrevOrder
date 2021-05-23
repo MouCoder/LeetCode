@@ -1,0 +1,44 @@
+class Solution {
+public:
+    void _preorderTraversal(vector<int>& v,TreeNode* root)
+    {
+        //递归实现
+        if(root == nullptr)
+            return;
+        v.push_back(root->val);
+        _preorderTraversal(v,root->left);
+        _preorderTraversal(v,root->right);
+    }
+    vector<int> preorderTraversal(TreeNode* root) {
+        //递归实现
+        vector<int> ret;
+        _preorderTraversal(ret,root);
+        return ret;
+ 
+    }
+};
+
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+ 
+        //非递归实现
+        vector<int> ret;
+        stack<TreeNode*> st;
+        TreeNode* cur = root;
+        while(cur || !st.empty())
+        {
+            while(cur)
+            {
+                st.push(cur);
+                ret.push_back(cur->val);
+                cur = cur->left;
+            }
+            //根节点出栈，右子树入栈
+            TreeNode* tmp = st.top();
+            st.pop();
+            cur = tmp->right;
+        }
+        return ret;
+    }
+};
