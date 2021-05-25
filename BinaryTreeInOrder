@@ -1,0 +1,46 @@
+class Solution {
+public:
+    //递归
+    void _inorderTraversal(vector<int>& v,TreeNode* root)
+    {
+        if(root == nullptr)
+            return;
+        _inorderTraversal(v,root->left);
+        v.push_back(root->val);
+        _inorderTraversal(v,root->right);
+    }
+    vector<int> inorderTraversal(TreeNode* root) {
+        //递归
+        vector<int> ret;
+        _inorderTraversal(ret,root);
+        return ret;
+    }
+};
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        //非递归
+        stack<TreeNode*> st;
+        vector<int> ret;
+        TreeNode* cur = root;
+        while(cur || !st.empty())
+        {
+            //左子树入栈
+            while(cur)
+            {
+                st.push(cur);
+                cur = cur->left;
+            }
+            //打印左子树和跟节点，并将右子树入栈
+            while(!st.empty() && cur == nullptr)
+            {
+                TreeNode* tmp = st.top();
+                st.pop();
+                ret.push_back(tmp->val);
+                cur = tmp->right;
+            }
+        }
+        return ret;
+    }
+};
