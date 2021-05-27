@@ -1,0 +1,40 @@
+#include<iostream>
+#include<string>
+#include<map>
+using namespace std;
+
+
+int main()
+{
+    string str;
+    while(getline(cin,str))
+    {
+        //将所有大写字符转换成小写字符
+        for(auto& e:str)
+        {
+            if(e >= 'A' && e <= 'Z')
+                e += 32;
+        }
+        map<string,int> m;
+        //将字符串分割
+        string tmp;
+        for(int i = 0;i < str.size();i++)
+        {
+            if(str[i] != ' ' && str[i] != '.')
+                tmp += str[i];
+            else
+            {
+                m[tmp]++;
+                tmp.clear();
+            }
+        }
+        //遍历
+        map<string,int>::iterator it = m.begin();
+        while(it != m.end())
+        {
+            cout<<(*it).first<<":"<<(*it).second<<endl;
+            it++;
+        }
+    }
+    return 0;
+}
