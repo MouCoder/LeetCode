@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        //使用map统计单词的出现次数，统计完后已经按照字典序将单词排列好了
+        map<string,int> m1;
+        for(auto& e:words)
+        {
+            m1[e]++;
+        }
+        //对m进行打印，打印顺序是字典序的
+        //将单词按照出现次数保存在multimap中（遍历m保证出现次数相同的单词按照字典序进行排列）
+        multimap<int,string,greater<int>> m2;
+        for(auto& e:m1)
+        {
+            m2.insert(make_pair(e.second,e.first));
+        }
+        //输出前k个
+        vector<string> ret;
+        auto it = m2.begin();
+        while(k--)
+        {
+            ret.push_back((*it).second);
+            it++;
+        }
+        return ret;
+    }
+};
