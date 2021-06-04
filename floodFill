@@ -1,0 +1,33 @@
+class Solution {
+public:
+    void _floodFill(vector<vector<int>>& img,vector<vector<int>>& ret,int src,int sc,int oldColor,int newColor)
+    {
+        /*结束条件：
+         *1、坐标不存在
+         *2、颜色和原始颜色不同
+         */
+        if(src < 0 || src >= img.size() || sc < 0 || sc >= img[0].size())
+        {
+            //位置不存在
+            return;
+        }
+        if(img[src][sc] != oldColor)
+        {
+            //与初始颜色不同
+            return;
+        }
+        //进行渲染
+        img[src][sc] = -1;
+        ret[src][sc] = newColor;
+        //依次从上下左右四个方向进行渲染
+        _floodFill(img,ret,src-1,sc,oldColor,newColor);
+        _floodFill(img,ret,src+1,sc,oldColor,newColor);
+        _floodFill(img,ret,src,sc-1,oldColor,newColor);
+        _floodFill(img,ret,src,sc+1,oldColor,newColor);
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        vector<vector<int>> ret(image);
+        _floodFill(image,ret,sr,sc,image[sr][sc],newColor);
+        return ret;
+    }
+};
