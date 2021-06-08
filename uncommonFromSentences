@@ -1,0 +1,70 @@
+class Solution {
+public:
+    vector<string> uncommonFromSentences(string s1, string s2) {
+        //将s1和s2保存到一个map中，出现次数为1的就是了
+        unordered_map<string,int> mp;
+        auto it1 = s1.begin();
+        auto it2 = s1.begin();
+        while(it1 !=s1.end() && it2 != s1.end())
+        {
+            if(*it2 != ' ' && it2 != s1.end()-1)
+            {
+                it2++;
+            }
+            else
+            {
+                if(it2 == s1.end()-1)
+                {
+                    it2++;
+                    string tmp(it1,it2);
+                    mp[tmp]++;
+                    break;
+                }
+                else
+                {
+                    string tmp(it1,it2);
+                    mp[tmp]++;
+                    it2++;
+                    it1 = it2;
+                }
+            }
+        }
+        //保存s2
+        it1 = s2.begin();
+        it2 = s2.begin();
+        while(it1 !=s2.end() && it2 != s2.end())
+        {
+            if(*it2 != ' ' && it2 != s2.end()-1)
+            {
+                it2++;
+            }
+            else
+            {
+                if(it2 == s2.end()-1)
+                {
+                    it2++;
+                    string tmp(it1,it2);
+                    mp[tmp]++;
+                    break;
+                }
+                else
+                {
+                    string tmp(it1,it2);
+                    mp[tmp]++;
+                    it2++;
+                    it1 = it2;
+                }
+            }
+        }
+        //找map中值出现一次的单词
+        vector<string> ret;
+        for(auto& e:mp)
+        {
+            if(e.second == 1)
+            {
+                ret.push_back(e.first);
+            }
+        }
+        return ret;
+    }
+};
