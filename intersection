@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> st1;
+        unordered_set<int> st2;
+        //将nums1插入到st1中
+        for(auto e:nums1)
+        {
+            st1.insert(e);
+        }
+        //将nums2插入到st2中
+        for(auto e:nums2)
+        {
+            st2.insert(e);
+        }
+        //遍历str1,判断是否在str2中存在
+        vector<int> ret;
+        for(auto e:st1)
+        {
+            if(st2.find(e) != st2.end())
+            {
+                ret.push_back(e);
+            }
+        }
+        return ret;
+    }
+};
