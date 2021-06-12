@@ -1,0 +1,35 @@
+class Solution {
+public:
+    void _numIslands(vector<vector<char>>& grid,int sr,int sc)
+    {
+        //将某一个岛屿由1变成0
+        //终止条件：位置不合法或者不是陆地
+        if(sr < 0 || sr >= grid.size() || sc < 0 || sc >= grid[0].size())
+            return;
+        if(grid[sr][sc] != '1')
+            return;
+        //将其变成0
+        grid[sr][sc] = '0';
+        //其他四个方向搜索
+        _numIslands(grid,sr-1,sc);
+        _numIslands(grid,sr+1,sc);
+        _numIslands(grid,sr,sc-1);
+        _numIslands(grid,sr,sc+1);
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        //以每一个是陆地的点进行深度优先搜索，看一共进行了多少次深度优先搜索。
+        int ret = 0;
+        for(int i = 0;i < grid.size();i++)
+        {
+            for(int j = 0;j < grid[0].size();j++)
+            {
+                if(grid[i][j] == '1')
+                {
+                    ret++;
+                    _numIslands(grid,i,j);
+                }
+            }
+        }
+        return ret;
+    }
+};
