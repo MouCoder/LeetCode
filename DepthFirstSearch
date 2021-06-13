@@ -1,0 +1,102 @@
+#include<iostream>
+#include<vector>
+#include<stdlib.h>
+#include<time.h>
+using namespace std;
+
+struct Node
+{
+	int x;
+	int y;
+};
+
+void DepthFirstSearch(vector<vector<int>>& maze,int sr,int sc,vector<struct Node>& ret)
+{
+	//终止条件:位置非法；有障碍物；已经走出
+	if (sr < 0 || sr >= 10 || sc < 0 || sc >= 10)
+	{
+		//ret.pop_back();
+		return;
+	}
+	if (maze[sr][sc] != 0)
+	{
+		//ret.pop_back();
+		return;
+	}
+	if (sr == 8 && sc == 9)
+	{
+		struct Node newNode = {8,9};
+		ret.push_back(newNode);
+		return;
+	}
+	//没有找到出口且还可以继续走，则将该位置存入ret，继续往四个方向走
+	struct Node newNode = { sr,sc };
+	ret.push_back(newNode);
+	//将该位置标记为-1，表示已经走过
+	maze[sr][sc] = -1;
+	DepthFirstSearch(maze,sr,sc-1,ret);
+	DepthFirstSearch(maze, sr, sc + 1, ret);
+	DepthFirstSearch(maze, sr-1, sc, ret);
+	DepthFirstSearch(maze, sr+1, sc, ret);
+	//某一个位置四个方向走完都没有出去，则折返
+	int x = ret.back().x;
+	int y = ret.back().y;
+	if (x == sr && y == sc)
+		ret.pop_back();
+}
+
+int main()
+{
+	//随机数种子
+	srand((unsigned)time(NULL));
+	//给定迷宫
+	vector<vector<int>> maze(10,vector<int>(10,0));
+	//第一行最后一行全为1，第一列和最后一列有一个出口和入口
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (i == 0 || i == 9 || j == 0 || j == 9)
+				maze[i][j] = 1;
+			else
+			{
+				//生成一个随机数，这个随机数要么是0要么是1
+				maze[i][j] = rand()%2;
+			}
+		}
+	}
+	//入口（1,0）出口（8,9）
+	maze[1][0] = maze[8][9] = 0;
+
+	/*maze = { {1,1,1,1,1,1,1,1,1,1}, 
+			{0,0,0,1,0,0,1,1,1,1}, 
+			{1,1,0,0,0,0,0,0,0,1}, 
+			{1,0,1,0,1,1,1,1,0,1}, 
+			{1,1,0,0,0,0,0,1,1,1}, 
+			{1,0,1,0,0,0,1,1,0,1}, 
+			{1,1,0,0,1,1,0,1,0,1}, 
+			{1,0,0,1,0,0,0,1,0,1}, 
+			{1,0,0,0,0,0,0,0,0,0}, 
+			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };*/
+	//打印迷宫
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			cout << maze[i][j] << " ";
+		}
+		cout << endl;
+	}
+	//深度优先搜索打印出路径
+	vector<struct Node> path;
+	DepthFirstSearch(maze,1,0,path);
+	//打印路径
+	if (path.empty())
+		cout << "没有能够出去的路径" << endl;
+	for (auto e : path)
+	{
+		cout << '(' << e.x << ',' << e.y << ')' << " ";
+	}
+	cout << endl;
+	return 0;
+}
