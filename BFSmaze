@@ -1,0 +1,111 @@
+#include<iostream>
+#include<vector>
+#include<stdlib.h>
+#include<time.h>
+using namespace std;
+
+struct Node
+{
+	int x;
+	int y;
+};
+
+int BreadthFirstSearch(vector<vector<int>>& maze,int sr,int sc,int dr,int dc,vector<struct Node>& path)
+{
+	//入口（sr,sc）出口（dr,dc）
+	//注意：maze中1表示障碍物，-1表示该位置已经走过了，0表示该位置可以走
+	//思路：从当前路径带出四个方向，四个方向在依次带出各自的四个方向
+	//初始化path
+	struct Node newNode = {sr,sc};
+	path.push_back(newNode);
+	maze[sr][sc] = -1;
+	//标记是否为出口
+	int flag = 0;
+	//四个行走的方向，上下左右
+	int next[4][2] = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+	//标记起始和结束位置，注意的是每有一个位置入数组，tail++
+	int head = 0;
+	int tail = 1;
+	while (head < tail)
+	{
+		//从head带出它的四个方向
+		for (int i = 0; i < 4; i++)
+		{
+			//新位置的坐标
+			int nx = path[head].x + next[i][0];
+			int ny = path[head].y + next[i][1];
+			//新位置非法，继续下一个方向
+			if (nx < 0 || nx >= 10 || ny < 0 || ny >= 10)
+				continue;
+			//如果该位置没被走过
+			if (maze[nx][ny] == 0)
+			{
+				newNode = {nx,ny};
+				path.push_back(newNode);
+				maze[nx][ny] = -1;
+				tail++;
+			}
+			//新位置为出口，结束
+			if (nx == dr && ny == dc)
+			{
+				flag = 1;
+				break;
+			}
+		}
+		if (flag)
+			break;
+		head++;
+	}
+	return flag;
+}
+
+int main()
+{
+	//随机数种子
+	srand((unsigned)time(NULL));
+	//给定迷宫
+	vector<vector<int>> maze(10, vector<int>(10, 0));
+	//第一行最后一行全为1，第一列和最后一列有一个出口和入口
+	//for (int i = 0; i < 10; i++)
+	//{
+	//	for (int j = 0; j < 10; j++)
+	//	{
+	//		if (i == 0 || i == 9 || j == 0 || j == 9)
+	//			maze[i][j] = 1;
+	//		else
+	//		{
+	//			//生成一个随机数，这个随机数要么是0要么是1
+	//			maze[i][j] = rand() % 2;
+	//		}
+	//	}
+	//}
+	////入口（1,0）出口（8,9）
+	//maze[1][0] = maze[8][9] = 0;
+
+	maze = { {1,1,1,1,1,1,1,1,1,1},
+	{0,0,0,1,0,0,1,1,1,1},
+	{1,1,0,0,0,0,0,0,0,1},
+	{1,0,1,0,1,1,1,1,0,1},
+	{1,1,0,0,0,0,0,1,1,1},
+	{1,0,1,0,0,0,1,1,0,1},
+	{1,1,0,0,1,1,0,1,0,1},
+	{1,0,0,1,0,0,0,1,0,1},
+	{1,0,0,0,0,0,0,0,0,0},
+	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
+	//打印迷宫
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			cout << maze[i][j] << " ";
+		}
+		cout << endl;
+	}
+	//深度优先搜索打印出路径
+	vector<struct Node> path;
+	if (BreadthFirstSearch(maze, 1, 0, 8, 9, path))
+		cout << "找到了" << endl;
+	else
+		cout << "没找到" << endl;
+	return 0;
+}
