@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int _getImportance(vector<Employee*>& employees,int id)
+    {
+        //定义并初始化队列
+        queue<Employee*> qu;
+        //找到id员工在数组中的下标,保存到队列中
+        int index = 0;
+        for(int i = 0;i < employees.size();i++)
+        {
+            if(employees[i]->id == id)
+            {
+                qu.push(employees[i]);
+                break;
+            }
+        }
+        //遍历队列，每一个队头节点将自己的直系下属带入队列在，直到队列为空
+        int sumImportance = qu.front()->importance;
+        while(!qu.empty())
+        {
+            //如果队头节点有直系下属
+            //计算队头元素的直系下属的重要性之和
+            for(int i = 0;i < qu.front()->subordinates.size();i++)
+            {
+                int subId = qu.front()->subordinates[i];
+                //在employees中找到该员工并保存到队列中
+                for(int j = 0;j < employees.size();j++)
+                {
+                    if(employees[j]->id == subId)
+                    {
+                        sumImportance += employees[j]->importance;
+                        qu.push(employees[j]);
+                        break;
+                    }
+                }
+            }
+            //队头节点将其所有直系下属节点带入队列后，队头节点出队
+            qu.pop();
+        }
+        return sumImportance;
+    }
+    int getImportance(vector<Employee*> employees, int id) {
+        //|广度优先搜索
+        return _getImportance(employees,id);
+    }
+};
