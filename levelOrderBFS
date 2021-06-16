@@ -1,0 +1,49 @@
+class Solution {
+public:
+    void _levelOrder(vector<vector<int>>& ret,Node* root)
+    {
+        //定义队列并初始化
+        queue<Node*> qu;
+        qu.push(root);
+        //记录当前层和下一层的节点个数
+        int cur = 1;//第一层，只有一个节点
+        int next = 0;//下一层，初始化为0
+        vector<int> tmp;
+        //遍历队列，用队列的头结点将其所有孩子节点带入队列
+        while(!qu.empty())
+        {
+            if(qu.front() != nullptr)
+            {
+                if(cur == 0)
+                {
+                    //当前层遍历完了，遍历下一层
+                    cur = next;
+                    next = 0;
+                    ret.push_back(tmp);
+                    tmp.resize(0);
+                }
+                //带入孩子节点
+                for(int i = 0;i < qu.front()->children.size();i++)
+                {
+                    qu.push(qu.front()->children[i]);
+                    next++;
+                }
+                //所有孩子节点带入后，出队
+                tmp.push_back(qu.front()->val);
+            }
+            qu.pop();
+            cur--;
+        }
+
+        ret.push_back(tmp);
+    }
+    vector<vector<int>> levelOrder(Node* root) {
+        //广度优先搜索
+        vector<vector<int>> ret;
+        if(root == nullptr)
+            return ret;
+        _levelOrder(ret,root);
+
+        return ret;
+    }
+};
