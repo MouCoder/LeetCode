@@ -1,0 +1,52 @@
+class Solution {
+public:
+    struct Node
+    {
+        string str;
+        int count;
+    };
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        //保存在hashmap中，查找速度快，同时可以记录是否被访问过
+        unordered_map<string,int> hashMap;
+        for(auto e:wordList)
+            hashMap[e] = 0;
+        //定义并初始化队列
+        queue<struct Node> qu;
+        struct Node newNode = {beginWord,1};
+        qu.push(newNode);
+        //遍历队列
+        int flag = 1;
+        while(!qu.empty() && flag)
+        {
+            string& str = qu.front().str;
+            for(int i = 0;i < str.size() && flag;i++)
+            {
+                //对单词第i位用26个字母进行替换
+                for(int j = 0;j < 26;j++)
+                {
+                    if(str[i] != 'a'+j)
+                    {
+                        string tmp = str;
+                        tmp[i] = 'a'+j;
+                        if(hashMap.find(tmp) != hashMap.end() && hashMap.find(tmp)->second == 0)
+                        {
+                            //存在这么一个单词
+                            newNode = {tmp,qu.front().count+1};
+                            qu.push(newNode);
+                            hashMap[tmp] = 1;
+                            if(tmp == endWord)
+                            {
+                                flag = 0;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            qu.pop();
+        }
+        if(flag == 1)
+            return 0;
+        return qu.back().count;
+    }
+};
