@@ -1,0 +1,56 @@
+class Solution {
+public:
+    struct Node
+    {
+        string str;
+        int count;
+    };
+    int minMutation(string start, string end, vector<string>& bank) {
+        //将基因库保存在unordered_map中，方便快速查找
+        unordered_map<string,int> hashMap;
+        for(auto e:bank)
+            hashMap[e] = 0;
+        //定义并初始化队列
+        queue<struct Node> qu;
+        struct Node newNode = {start,0};
+        qu.push(newNode);
+        //遍历队列
+        int flag = 1;//表示是否找到，为0表示找到
+        char list[4] = {'A','C','G','T'};
+        int ret;
+        while(!qu.empty() && flag)
+        {
+            //对队头的基因序列进行改变
+            string str = qu.front().str;
+            for(int i = 0;i < 8;i++)
+            {
+                //将str的第i位变成ACGT中的任意一个，在基因库中查看是否存在
+                for(int j = 0;j < 4;j++)
+                {
+                    if(str[i] != list[j])
+                    {
+                        string tmp = str;
+                        tmp[i] = list[j];
+                        //基因库中存在这个基因
+                        if(hashMap.find(tmp) != hashMap.end() &&hashMap.find(tmp)->second == 0)
+                        {
+                            newNode = {tmp,qu.front().count+1};
+                            qu.push(newNode);
+                            hashMap[tmp] = 1;
+                            if(tmp == end)
+                            {
+                                ret = qu.back().count;
+                                flag = 0;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            qu.pop();
+        }
+        if(flag == 1)
+            return -1;
+        return ret;
+    }
+};
