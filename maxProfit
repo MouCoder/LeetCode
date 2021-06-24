@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int max = 0;
+        int left = 0;//买
+        int right = 1;//卖
+        //思路：假设第i天的股票价格比买的时候价格大，第i天不适合买；
+        //假设第i天的股票价格比前几天都偏移，这是适合买
+        while(right < prices.size())
+        {
+            if(prices[right] > prices[left])
+            {
+                if(max < prices[right] - prices[left])
+                    max = prices[right] - prices[left];
+                    right++;
+            }
+            else
+            {
+                left = right;
+                right++;
+            }
+        } 
+        return max;       
+    }
+};
