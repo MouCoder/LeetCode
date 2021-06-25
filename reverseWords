@@ -1,0 +1,33 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        string ret;
+        if(s.empty())
+            return ret;
+        //排除前导和后导空格
+        auto begin = s.begin();
+        auto end = s.end()-1;
+        while(begin < end && *begin == ' ')
+            begin++;
+        while(begin < end && *end == ' ')
+            end--;
+        end++;
+        //从后向前遍历字符串
+        string::iterator left = end,right = end;
+        while(left > begin)
+        {
+            while(left > begin && *(left-1) != ' ')
+                left--;
+            string tmp(left,right);
+            ret += tmp;
+            ret += ' ';
+            //排除中间多余的空格
+            while(left > begin && *(left-1) == ' ')
+                left--;
+            right = left;
+        }
+        //删除最后的空格
+        ret.erase(ret.end()-1);
+        return ret;
+    }
+};
