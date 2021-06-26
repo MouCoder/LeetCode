@@ -1,0 +1,51 @@
+class Solution {
+public:
+    bool isNum(string s,bool& isDecimal)
+    {
+        isDecimal = false;
+        bool hasDigit = false;
+        //排除符号
+        int index = 0;
+        if(s[0] == '+' || s[0] == '-')
+            index = 1;
+        //判断是否有小数点
+        for(int i = index;i < s.size();i++)
+        {
+            //如果有两个或两个以上的小数点返回false
+            if(s[i] == '.' && isDecimal == true)
+                return false;
+            else if(s[i] == '.')
+                isDecimal = true;
+            else if(s[i] >= '0' && s[i] <= '9')
+                hasDigit = true;
+            else
+                return false;
+        }
+        //有数字就返回true
+        return hasDigit;
+    }
+    bool isNumber(string s) {
+        //去掉前导和后导空格
+        s.erase(0,s.find_first_not_of(' '));
+        s.erase(s.find_last_not_of(' ')+1);
+        //判断字符串中是否有'e'或'E'
+        int count = 0;
+        int pos = -1;
+        for(int i = 0;i < s.size();i++)
+        {
+            if(s[i] == 'e' || s[i] == 'E')
+            {
+                pos = i;
+                count++;
+            }
+            if(count >= 2)
+                return false;
+        }
+        //如果有'e'或'E',则前半部分可以是整数也可以是小数，但后半部分必须是整数
+        bool isDecimal = false;
+        if(pos != -1)
+            return isNum(s.substr(0,pos),isDecimal)&&isNum(s.substr(pos+1,s.size()),isDecimal) && !isDecimal;
+        //没有，整数小数都可以 
+        return isNum(s,isDecimal);
+    }
+};
