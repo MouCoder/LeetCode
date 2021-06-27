@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        //遍历一遍，第一次遇到i存储位置的索引不是i
+        for(int i = 0;i < nums.size();i++)
+        {
+            if(nums[i] != i)
+            {
+                return i;
+            }
+        }
+        //走到这里没有返回那么缺失的肯定是最后一个数字
+        return nums.size();
+    }
+};
