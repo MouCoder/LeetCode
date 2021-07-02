@@ -1,0 +1,63 @@
+class Solution {
+public:
+    struct Node
+    {
+        int x;
+        int y;
+    };
+    int add(int x,int y)
+    {
+        int ret = 0;
+        while(x)
+        {
+            ret += x%10;
+            x /= 10;
+        }
+        while(y)
+        {
+            ret += y%10;
+            y /= 10;
+        }
+        return ret;
+    }
+    int movingCount(int m, int n, int k) {
+        int count = 1;//{0,0}一定可达
+        vector<vector<int>> status(m,vector<int>(n,0));
+        //广度优先搜索
+        queue<struct Node> qu;
+        //初始化队列
+        struct Node newNode = {0,0};
+        qu.push(newNode);
+        status[0][0] = 1;
+        //上下左右四个方向
+        int direction[4][4] = {{-1,0},{1,0},{0,-1},{0,1}};
+        //队头节点的上下左右四个方向的节点入队，每有一个节点入队，count++
+        while(!qu.empty())
+        {
+            //上下左右四个方向
+            for(int i = 0;i < 4;i++)
+            {
+                int sr = qu.front().x + direction[i][0];
+                int sc = qu.front().y + direction[i][1];
+                //判断坐标是否合法
+                if(sr < 0 || sc < 0 || sr >= m || sc >= n)
+                    continue;
+                //判断是否已经走过，或者sr + sc > k
+                if(status[sr][sc] == 1)
+                    continue;
+                if(add(sr,sc) > k)
+                    continue;
+                //标记为已经计算
+                status[sr][sc] = 1;
+                //入队
+                newNode = {sr,sc};
+                qu.push(newNode);
+                //count++
+                count++;                
+            }
+            //队头出队
+            qu.pop();
+        }
+        return count;
+    }
+};
