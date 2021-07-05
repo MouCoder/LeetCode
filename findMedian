@@ -1,0 +1,35 @@
+class MedianFinder {
+    multiset<int> st;//不去重 
+public:
+    /** initialize your data structure here. */
+    
+    void addNum(int num) {
+        //时间复杂度：O(logN)
+        st.insert(num);
+    }
+    
+    double findMedian() {
+        int size = st.size();
+        if(size == 1)
+            return *(st.begin());
+        //找中间size/2和size/2+1两个数
+        int num1;
+        int num2;
+        int count = size/2+1;
+        for(auto e:st)
+        {
+            count--;
+            if(count == 1)
+                num2 = e;
+            else if(count == 0)
+            {
+                num1 = e;
+                break;
+            }
+        }
+        double ret = (double)num1;
+        if(size % 2 == 0)
+            ret = (num1+num2)/2.0;
+        return ret;
+    }
+};
