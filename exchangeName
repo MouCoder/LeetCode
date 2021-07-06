@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    string str;
+    while(cin>>str)
+    {
+        //遍历字符串，遇到_将后一个字符转为大写
+        auto it = str.begin();
+        while(it != str.end())
+        {
+            if(*it == '_')
+            {
+                //将后一个字符转为大写
+                *(it+1) -= 32;
+                //删除下划线，注意防止迭代器失效
+                it = str.erase(it);
+                continue;
+            }
+            it++;
+        }
+        cout<<str<<endl;
+    }
+}
