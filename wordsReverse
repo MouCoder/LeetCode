@@ -1,0 +1,39 @@
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    string str;
+    while(getline(cin,str))
+    {
+        string ret;
+        //从后往前遍历字符串,遇到非字符停止
+        auto head = str.end()-1;
+        auto tail = str.end();
+        while(head >= (str.begin()-1))
+        {
+            if((*head >= 'A' && *head <= 'Z') || (*head >= 'a' && *head <= 'z'))
+            {
+                head--;
+            }
+            else
+            {
+                //拼接
+                string tmp(head+1,tail);
+                ret += tmp;
+                ret += ' ';
+                //迭代
+                while(head-1 >= str.begin() && !((*(head-1) >= 'A' && *(head-1) <= 'Z') || (*(head-1) >= 'a' && *(head-1) <= 'z')))
+                {
+                    head--;
+                }
+                tail = head;
+                head = head-1;
+            }
+        }
+        string tmp(ret.begin(),ret.end()-1);
+        ret = tmp;
+        cout<<ret<<endl;
+    }
+    return 0;
+}
