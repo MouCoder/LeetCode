@@ -1,0 +1,76 @@
+#include<iostream>
+#include<set>
+#include<string>
+#include<list>
+using namespace std;
+
+int main()
+{
+    int n;
+    cin>>n;
+    list<string> lt;
+    for(int i = 0;i < n;i++)
+    {
+        string tmp;
+        cin>>tmp;
+        lt.push_back(tmp);
+    }
+    string src;
+    cin>>src;
+    int k;
+    cin>>k;
+    //统计源串中的字符
+    int count[26] = {0};
+    for(auto e:src)
+        count[e-'a']++;
+    //遍历list
+    auto it = lt.begin();
+    while(it != lt.end())
+    {
+        if(*it != src)
+        {
+            int ct[26]={0};
+            for(auto e:*it)
+            {
+                ct[e-'a']++;
+            }
+            //判断两个数组是否相同
+            bool isSame = true;
+            for(int i = 0;i < 26;i++)
+            {
+                if(ct[i] != count[i])
+                {
+                    isSame = false;
+                    break;
+                }
+            }
+            //相同继续判断下一个
+            if(isSame)
+            {
+                it++;
+                continue;
+            }
+        }
+        //不是兄弟单词，删除，继续判断下一个(注意迭代器失效)
+        it = lt.erase(it);
+        //it++;
+    }
+    //将兄弟单词按照字典序排序
+    multiset<string> st;
+    for(auto& e:lt)
+    {
+        st.insert(e);
+    }
+    string ret;
+    for(auto& e:st)
+    {
+        k--;
+        if(k == 0)
+        {
+            ret = e;
+            break;
+        }
+    }
+    cout<<lt.size()<<endl<<ret<<endl;
+    return 0;
+}
