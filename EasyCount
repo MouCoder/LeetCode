@@ -1,0 +1,50 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+    vector<pair<string,int>> retSet;
+    string pathNmae;
+    string rowNum;
+    while(cin>>pathNmae>>rowNum)
+    {
+        //取出带路径文件名的最后一个\的后面的字符串
+        size_t index = pathNmae.find_last_of('\\');
+        //如果多于16位，取出最后十六位
+        int count = 0;
+        string tmp;
+        for(int i = pathNmae.size()-1;count < 16 && i > index;i--)
+        {
+            tmp.push_back(pathNmae[i]);
+            count++;
+        }
+        reverse(tmp.begin(),tmp.end());
+        tmp += ' ';
+        tmp += rowNum;
+        //查找retSet中是否有相同的记录
+        bool isSameCount = false;
+        for(auto& e:retSet)
+        {
+            if(e.first == tmp)
+            {
+                isSameCount = true;
+                e.second++;
+                break;
+            }
+        }
+        if(!isSameCount)
+            retSet.push_back(make_pair(tmp,1));
+    }
+    //取出retSet中的后8个输出
+    int begin = retSet.size();
+    if(begin > 8)
+        begin -= 8;
+    else
+        begin = 0;
+    for(int i = begin;i < retSet.size();i++)
+        cout<<retSet[i].first<<' '<<retSet[i].second<<endl;
+    return 0;
+}
